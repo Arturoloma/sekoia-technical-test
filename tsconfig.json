@@ -18,7 +18,9 @@
     "baseUrl": "./",
     "paths": {
       "@models": ["src/app/models"],
-      "@models/*": ["src/app/models/*"]
+      "@models/*": ["src/app/models/*"],
+      "@mocks": ["src/app/shared/mocks"],
+      "@mocks/*": ["src/app/shared/mocks/*"]
     }
   },
   "angularCompilerOptions": {

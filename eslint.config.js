@@ -60,6 +60,11 @@ module.exports = tseslint.config(
           trailingUnderscore: 'forbid',
         },
         {
+          selector: 'variable',
+          modifiers: ['const'],
+          format: ['camelCase', 'UPPER_CASE'],
+        },
+        {
           selector: 'typeLike',
           format: ['PascalCase'],
         },
@@ -110,6 +115,12 @@ module.exports = tseslint.config(
           },
         },
       ],
+    },
+  },
+  {
+    files: ['**/*.config.ts', '**/setup-*.ts'],
+    rules: {
+      '@typescript-eslint/naming-convention': 'off', // Disable for config files
     },
   },
   {
