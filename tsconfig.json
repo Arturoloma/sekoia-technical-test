@@ -14,7 +14,12 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "preserve",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "baseUrl": "./",
+    "paths": {
+      "@models": ["src/app/models"],
+      "@models/*": ["src/app/models/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

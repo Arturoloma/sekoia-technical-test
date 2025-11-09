@@ -33,6 +33,83 @@ module.exports = tseslint.config(
         },
       ],
       '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/explicit-member-accessibility': [
+        'error',
+        {
+          accessibility: 'explicit',
+          overrides: {
+            constructors: 'no-public',
+          },
+        },
+      ],
+      '@typescript-eslint/explicit-function-return-type': [
+        'error',
+        {
+          allowExpressions: false,
+          allowTypedFunctionExpressions: true,
+          allowHigherOrderFunctions: true,
+          allowDirectConstAssertionInArrowFunctions: true,
+        },
+      ],
+      '@typescript-eslint/naming-convention': [
+        'error',
+        {
+          selector: 'default',
+          format: ['camelCase'],
+          leadingUnderscore: 'forbid',
+          trailingUnderscore: 'forbid',
+        },
+        {
+          selector: 'typeLike',
+          format: ['PascalCase'],
+        },
+        {
+          selector: 'enumMember',
+          format: ['UPPER_CASE'],
+        },
+        {
+          selector: 'classProperty',
+          modifiers: ['private', 'readonly'],
+          format: ['UPPER_CASE', 'camelCase'],
+          leadingUnderscore: 'allow',
+        },
+        {
+          selector: 'memberLike',
+          modifiers: ['private'],
+          format: ['camelCase'],
+          leadingUnderscore: 'require',
+        },
+        {
+          selector: 'memberLike',
+          modifiers: ['protected'],
+          format: ['camelCase'],
+          leadingUnderscore: 'allow',
+        },
+        {
+          selector: 'memberLike',
+          modifiers: ['public'],
+          format: ['camelCase'],
+          leadingUnderscore: 'forbid',
+        },
+        {
+          selector: 'variable',
+          modifiers: ['unused'],
+          format: ['camelCase'],
+          leadingUnderscore: 'allow',
+        },
+        {
+          selector: 'property',
+          format: null,
+          custom: {
+            regex: '^[a-z][a-zA-Z0-9]*$',
+            match: false,
+          },
+          filter: {
+            regex: '^(data-|aria-)',
+            match: true,
+          },
+        },
+      ],
     },
   },
   {
