@@ -20,7 +20,6 @@ export enum JokeFlag {
 export type JokeFlags = Record<JokeFlag, boolean>;
 
 export enum JokeType {
-  ANY = 'any',
   SINGLE = 'single',
   TWO_PART = 'twopart',
 }
@@ -73,3 +72,13 @@ export interface SingleJokeResponse extends JokeBaseResponse, Joke {
 }
 
 export type JokeApiResponse = JokeErrorResponse | MultipleJokesResponse | SingleJokeResponse;
+
+export interface GetJokesParameters {
+  amount: number;
+  blacklistFlags?: JokeFlags;
+  category: JokeCategory;
+  contains?: string;
+  idRange?: [number, number]; // [min, max]
+  lang?: JokeLanguage;
+  type?: JokeType;
+}
