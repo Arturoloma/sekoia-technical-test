@@ -13,6 +13,15 @@ const config: Config = {
     ArrayBuffer: ArrayBuffer,
   },
   testEnvironment: 'jsdom',
+  coveragePathIgnorePatterns: [
+    '/node_modules/',
+    '/dist/',
+    '\\.mock\\.ts$',
+    '\\.mocks\\.ts$',
+    '/mocks/',
+    '\\.spec\\.ts$',
+    '\\.config\\.ts$',
+  ],
   moduleNameMapper: {
     '^@models$': '<rootDir>/src/app/models',
     '^@models/(.*)$': '<rootDir>/src/app/models/$1',
