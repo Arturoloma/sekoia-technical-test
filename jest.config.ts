@@ -18,6 +18,8 @@ const config: Config = {
     '^@models/(.*)$': '<rootDir>/src/app/models/$1',
     '^@mocks$': '<rootDir>/src/app/shared/mocks',
     '^@mocks/(.*)$': '<rootDir>/src/app/shared/mocks/$1',
+    '^@interceptors$': '<rootDir>/src/app/core/interceptors',
+    '^@interceptors/(.*)$': '<rootDir>/src/app/core/interceptors/$1',
   },
 };
 

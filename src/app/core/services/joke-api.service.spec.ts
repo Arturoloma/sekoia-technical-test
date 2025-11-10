@@ -15,7 +15,7 @@ import {
 
 describe('JokeApiService', () => {
   let service: JokeApiService;
-  let httpMock: HttpTestingController;
+  let httpTestingController: HttpTestingController;
   const apiUrl = 'https://v2.jokeapi.dev';
 
   beforeEach(() => {
@@ -29,11 +29,11 @@ describe('JokeApiService', () => {
     });
 
     service = TestBed.inject(JokeApiService);
-    httpMock = TestBed.inject(HttpTestingController);
+    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {
-    httpMock.verify();
+    httpTestingController.verify();
   });
 
   it('should load', () => {
@@ -46,7 +46,7 @@ describe('JokeApiService', () => {
         expect(response).toEqual(mockSingleJokeResponse);
       });
 
-      const req = httpMock.expectOne((request) => {
+      const req = httpTestingController.expectOne((request) => {
         return request.url === `${apiUrl}/joke/Any` && request.params.get('amount') === '10';
       });
 
@@ -63,7 +63,7 @@ describe('JokeApiService', () => {
         })
         .subscribe();
 
-      const req = httpMock.expectOne((request) => {
+      const req = httpTestingController.expectOne((request) => {
         return request.url === `${apiUrl}/joke/Dark` && request.params.get('amount') === '5';
       });
 
@@ -82,7 +82,7 @@ describe('JokeApiService', () => {
         })
         .subscribe();
 
-      const req = httpMock.expectOne((request) => {
+      const req = httpTestingController.expectOne((request) => {
         const flags = request.params.get('blacklistFlags');
         return flags === 'nsfw,sexist' || flags === 'sexist,nsfw';
       });
@@ -98,7 +98,7 @@ describe('JokeApiService', () => {
         })
         .subscribe();
 
-      const req = httpMock.expectOne(`${apiUrl}/joke/Any?amount=10`);
+      const req = httpTestingController.expectOne(`${apiUrl}/joke/Any?amount=10`);
       expect(req.request.params.has('blacklistFlags')).toBe(false);
       req.flush(mockSingleJokeResponse);
     });
@@ -110,7 +110,7 @@ describe('JokeApiService', () => {
         })
         .subscribe();
 
-      const req = httpMock.expectOne((request) => {
+      const req = httpTestingController.expectOne((request) => {
         return (
           request.url === `${apiUrl}/joke/Any` && request.params.get('contains') === 'programming'
         );
@@ -127,7 +127,7 @@ describe('JokeApiService', () => {
         })
         .subscribe();
 
-      const req = httpMock.expectOne((request) => {
+      const req = httpTestingController.expectOne((request) => {
         return request.url === `${apiUrl}/joke/Any` && request.params.get('idRange') === '10-50';
       });
 
@@ -142,7 +142,7 @@ describe('JokeApiService', () => {
         })
         .subscribe();
 
-      const req = httpMock.expectOne((request) => {
+      const req = httpTestingController.expectOne((request) => {
         return request.url === `${apiUrl}/joke/Any` && request.params.get('lang') === 'es';
       });
 
@@ -157,7 +157,7 @@ describe('JokeApiService', () => {
         })
         .subscribe();
 
-      const req = httpMock.expectOne((request) => {
+      const req = httpTestingController.expectOne((request) => {
         return request.url === `${apiUrl}/joke/Any` && request.params.get('type') === 'twopart';
       });
 
@@ -180,7 +180,7 @@ describe('JokeApiService', () => {
         })
         .subscribe();
 
-      const req = httpMock.expectOne((request) => {
+      const req = httpTestingController.expectOne((request) => {
         return (
           request.url === `${apiUrl}/joke/Programming` &&
           request.params.get('amount') === '15' &&
@@ -203,7 +203,7 @@ describe('JokeApiService', () => {
         }
       });
 
-      const req = httpMock.expectOne(`${apiUrl}/joke/Any?amount=1`);
+      const req = httpTestingController.expectOne(`${apiUrl}/joke/Any?amount=1`);
       req.flush(mockSingleJokeResponse);
     });
 
@@ -218,7 +218,7 @@ describe('JokeApiService', () => {
         }
       });
 
-      const req = httpMock.expectOne(`${apiUrl}/joke/Any?amount=2`);
+      const req = httpTestingController.expectOne(`${apiUrl}/joke/Any?amount=2`);
       req.flush(customResponse);
     });
 
@@ -231,7 +231,7 @@ describe('JokeApiService', () => {
         },
       });
 
-      const req = httpMock.expectOne((request) => request.url.includes('/joke/Any'));
+      const req = httpTestingController.expectOne((request) => request.url.includes('/joke/Any'));
       req.flush(mockErrorResponse, { status: 404, statusText: 'Not Found' });
     });
 
@@ -244,7 +244,7 @@ describe('JokeApiService', () => {
         },
       });
 
-      const req = httpMock.expectOne((request) => request.url.includes('/joke/Any'));
+      const req = httpTestingController.expectOne((request) => request.url.includes('/joke/Any'));
       req.flush(null, { status: 500, statusText: 'Internal Server Error' });
     });
   });
