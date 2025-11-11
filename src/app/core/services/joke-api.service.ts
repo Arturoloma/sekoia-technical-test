@@ -41,6 +41,10 @@ export class JokeApiService {
       httpParams = httpParams.set('lang', params.lang);
     }
 
+    if (params.safeMode) {
+      httpParams = httpParams.set('safe-mode', '');
+    }
+
     if (params.type) {
       httpParams = httpParams.set('type', params.type);
     }

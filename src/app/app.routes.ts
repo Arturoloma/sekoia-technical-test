@@ -1,29 +1,45 @@
 import { Routes } from '@angular/router';
+import { jokesStore } from './features/jokes/store/jokes.store';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'joke-list',
+    redirectTo: 'jokes',
     pathMatch: 'full',
   },
   {
-    path: 'joke-list',
+    path: 'jokes',
     loadComponent: () =>
-      import('./features/jokes/pages/joke-list/joke-list.component').then(
-        (m) => m.JokeListComponent,
+      import('./features/jokes/pages/jokes/jokes.component').then(
+        (module) => module.JokesComponent,
       ),
-    title: 'Jokes - Browse and Search',
-  },
-  {
-    path: 'joke-submit',
-    loadComponent: () =>
-      import('./features/jokes/pages/joke-submit/joke-submit.component').then(
-        (m) => m.JokeSubmitComponent,
-      ),
-    title: 'Submit a Joke',
+    providers: [jokesStore],
+    children: [
+      {
+        path: '',
+        redirectTo: 'list',
+        pathMatch: 'full',
+      },
+      {
+        path: 'list',
+        loadComponent: () =>
+          import('./features/jokes/pages/joke-list/joke-list.component').then(
+            (module) => module.JokeListComponent,
+          ),
+        title: 'Browse Jokes',
+      },
+      {
+        path: 'submit',
+        loadComponent: () =>
+          import('./features/jokes/pages/joke-submit/joke-submit.component').then(
+            (module) => module.JokeSubmitComponent,
+          ),
+        title: 'Submit a Joke',
+      },
+    ],
   },
   {
     path: '**',
-    redirectTo: 'joke-list',
+    redirectTo: 'jokes',
   },
 ];

@@ -1,1 +1,19 @@
-<p>joke-list works!</p>
+@if (store.isLoading()) {
+  <p>Loading jokes...</p>
+} @else if (store.error()) {
+  <p>Error: {{ store.error() }}</p>
+} @else {
+  @for (joke of store.jokes(); track joke.id; let first = $first) {
+    <article>
+      @if (!first) {
+        <hr />
+      }
+      @if (joke.type === JokeType.SINGLE) {
+        <p>{{ joke.joke }}</p>
+      } @else {
+        <p>{{ joke.setup }}</p>
+        <p>{{ joke.delivery }}</p>
+      }
+    </article>
+  }
+}

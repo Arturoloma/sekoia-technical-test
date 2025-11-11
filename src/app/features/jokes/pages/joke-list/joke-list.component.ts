@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { jokesStore } from '../../store/jokes.store';
+import { JokeType } from '@models';
 
 @Component({
   selector: 'skio-joke-list',
@@ -8,10 +10,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class JokeListComponent {
-  // Homepage with search, filters, and joke listing
-  // Requirements:
-  // - Searchbar
-  // - Submit button (navigates to /submit)
-  // - List 10 jokes
-  // - Filter checkboxes (nsfw, religious, political, racist, sexist, explicit)
+  public readonly store = inject(jokesStore);
+
+  public readonly JokeType = JokeType;
 }

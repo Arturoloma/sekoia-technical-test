@@ -29,6 +29,8 @@ const config: Config = {
     '^@mocks/(.*)$': '<rootDir>/src/app/shared/mocks/$1',
     '^@interceptors$': '<rootDir>/src/app/core/interceptors',
     '^@interceptors/(.*)$': '<rootDir>/src/app/core/interceptors/$1',
+    '^@core$': '<rootDir>/src/app/core',
+    '^@core/(.*)$': '<rootDir>/src/app/core/$1',
   },
 };
 

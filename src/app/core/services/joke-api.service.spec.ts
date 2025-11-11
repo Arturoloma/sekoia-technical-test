@@ -150,6 +150,37 @@ describe('JokeApiService', () => {
       req.flush(mockSingleJokeResponse);
     });
 
+    it('should add safe-mode parameter when safeMode is true', () => {
+      service
+        .getJokes({
+          safeMode: true,
+        })
+        .subscribe();
+
+      const req = httpTestingController.expectOne((request) => {
+        return request.url === `${apiUrl}/joke/Any` && request.params.has('safe-mode');
+      });
+
+      expect(req.request.method).toBe('GET');
+      expect(req.request.params.get('safe-mode')).toBe('');
+      req.flush(mockSingleJokeResponse);
+    });
+
+    it('should not add safe-mode parameter when safeMode is false', () => {
+      service
+        .getJokes({
+          safeMode: false,
+        })
+        .subscribe();
+
+      const req = httpTestingController.expectOne((request) => {
+        return request.url === `${apiUrl}/joke/Any` && !request.params.has('safe-mode');
+      });
+
+      expect(req.request.method).toBe('GET');
+      req.flush(mockSingleJokeResponse);
+    });
+
     it('should add type parameter when provided', () => {
       service
         .getJokes({

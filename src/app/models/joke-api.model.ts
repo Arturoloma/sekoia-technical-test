@@ -80,5 +80,6 @@ export interface GetJokesParameters {
   contains?: string;
   idRange?: [number, number]; // [min, max]
   lang?: JokeLanguage;
+  safeMode: boolean;
   type?: JokeType;
 }

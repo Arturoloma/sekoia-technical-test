@@ -33,6 +33,14 @@ module.exports = tseslint.config(
         },
       ],
       '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
       '@typescript-eslint/explicit-member-accessibility': [
         'error',
         {
@@ -49,6 +57,7 @@ module.exports = tseslint.config(
           allowTypedFunctionExpressions: true,
           allowHigherOrderFunctions: true,
           allowDirectConstAssertionInArrowFunctions: true,
+          allowConciseArrowFunctionExpressionsStartingWithVoid: true,
         },
       ],
       '@typescript-eslint/naming-convention': [
@@ -56,7 +65,7 @@ module.exports = tseslint.config(
         {
           selector: 'default',
           format: ['camelCase'],
-          leadingUnderscore: 'forbid',
+          leadingUnderscore: 'allow',
           trailingUnderscore: 'forbid',
         },
         {
@@ -93,7 +102,7 @@ module.exports = tseslint.config(
         {
           selector: 'memberLike',
           modifiers: ['public'],
-          format: ['camelCase'],
+          format: ['camelCase', 'PascalCase'],
           leadingUnderscore: 'forbid',
         },
         {
@@ -120,7 +129,8 @@ module.exports = tseslint.config(
   {
     files: ['**/*.config.ts', '**/setup-*.ts'],
     rules: {
-      '@typescript-eslint/naming-convention': 'off', // Disable for config files
+      '@typescript-eslint/naming-convention': 'off',
+      '@typescript-eslint/explicit-function-return-type': 'off',
     },
   },
   {
