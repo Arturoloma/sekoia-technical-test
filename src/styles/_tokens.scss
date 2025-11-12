@@ -1,0 +1,95 @@
+// --------------------------------------------
+// Border Radius
+// --------------------------------------------
+
+$border-radius-circle: 500px;
+$border-radius-xs: 2px;
+$border-radius-s: 4px;
+$border-radius-m: 8px;
+$border-radius-l: 12px;
+
+// --------------------------------------------
+// Colors
+// --------------------------------------------
+
+// Background Colors
+$color-background: #fff;
+$color-background-secondary: #f8f9fc;
+$color-elevation-surface: #fff;
+
+// Border Colors
+$color-border: #b2b2e4;
+$color-border-secondary: #e2e4f0;
+
+// Content Colors
+$color-icon-subtle: #6d6e9c;
+$color-text: #21225f;
+$color-text-subtle: #6d6e9c;
+
+// --------------------------------------------
+// Layout
+// --------------------------------------------
+
+$container-max-width: 835px;
+$container-padding: $spacing-24-px;
+
+// --------------------------------------------
+// Sizing
+// --------------------------------------------
+
+$size-1-px: 1px;
+$size-2-px: 2px;
+$size-4-px: 4px;
+$size-8-px: 8px;
+$size-12-px: 12px;
+$size-16-px: 16px;
+$size-20-px: 20px;
+$size-24-px: 24px;
+$size-36-px: 36px;
+$size-48-px: 48px;
+$size-64-px: 64px;
+
+// --------------------------------------------
+// Spacing
+// --------------------------------------------
+
+$spacing-1-px: 1px;
+$spacing-2-px: 2px;
+$spacing-4-px: 4px;
+$spacing-8-px: 8px;
+$spacing-12-px: 12px;
+$spacing-20-px: 20px;
+$spacing-24-px: 24px;
+$spacing-36-px: 36px;
+$spacing-48-px: 48px;
+$spacing-64-px: 64px;
+
+// --------------------------------------------
+// Typography
+// --------------------------------------------
+
+// Font Families
+$font-family-normal:
+  'Inter',
+  -apple-system,
+  blinkmacsystemfont,
+  'Segoe UI',
+  sans-serif;
+$font-family-monospace: 'Monaco', 'Courier New', monospace;
+
+// Font Sizes
+$font-size-s: 12px;
+$font-size-m: 14px;
+$font-size-l: 16px;
+$font-size-xl: 18px;
+$font-size-xxl: 20px;
+
+// Font Weights
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// Line Heights
+$line-height-m: $size-20-px;

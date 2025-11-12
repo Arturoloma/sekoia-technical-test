@@ -3,7 +3,7 @@ import { jokesStore } from '../../store/jokes.store';
 import { JokeType } from '@models';
 
 @Component({
-  selector: 'skio-joke-list',
+  selector: 'sek-joke-list',
   templateUrl: './joke-list.component.html',
   styleUrls: ['./joke-list.component.scss'],
   standalone: true,

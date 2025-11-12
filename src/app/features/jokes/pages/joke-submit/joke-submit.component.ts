@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'skio-joke-submit',
+  selector: 'sek-joke-submit',
   templateUrl: './joke-submit.component.html',
   styleUrls: ['./joke-submit.component.scss'],
   standalone: true,

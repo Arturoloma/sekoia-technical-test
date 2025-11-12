@@ -1,0 +1,75 @@
+@use 'tokens' as *;
+
+// ============================================
+// Base Typography
+// ============================================
+
+@mixin typography(
+  $family: $font-family-normal,
+  $size: $font-size-m,
+  $weight: $font-weight-regular,
+  $line-height: normal,
+  $letter-spacing: 0
+) {
+  font-family: $family;
+  font-size: $size;
+  font-weight: $weight;
+  line-height: $line-height;
+  letter-spacing: $letter-spacing;
+}
+
+// ============================================
+// Typography Styles
+// ============================================
+
+@mixin sek-title-m($family: $font-family-normal, $weight: $font-weight-bold, $line-height: 140%) {
+  @include typography(
+    $family: $family,
+    $size: $font-size-xxl,
+    $weight: $weight,
+    $line-height: $line-height,
+    $letter-spacing: 0
+  );
+}
+
+@mixin sek-text-s(
+  $family: $font-family-normal,
+  $weight: $font-weight-regular,
+  $line-height: $line-height-m
+) {
+  @include typography(
+    $family: $family,
+    $size: $font-size-m,
+    $weight: $weight,
+    $line-height: $line-height,
+    $letter-spacing: 0
+  );
+}
+
+@mixin sek-text-m(
+  $family: $font-family-normal,
+  $weight: $font-weight-regular,
+  $line-height: $line-height-m
+) {
+  @include typography(
+    $family: $family,
+    $size: $font-size-l,
+    $weight: $weight,
+    $line-height: $line-height,
+    $letter-spacing: 0
+  );
+}
+
+@mixin sek-text-caption-m(
+  $family: $font-family-normal,
+  $weight: $font-weight-semibold,
+  $line-height: 130%
+) {
+  @include typography(
+    $family: $family,
+    $size: $font-size-s,
+    $weight: $weight,
+    $line-height: $line-height,
+    $letter-spacing: 0
+  );
+}
