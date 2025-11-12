@@ -31,6 +31,8 @@ const config: Config = {
     '^@interceptors/(.*)$': '<rootDir>/src/app/core/interceptors/$1',
     '^@core$': '<rootDir>/src/app/core',
     '^@core/(.*)$': '<rootDir>/src/app/core/$1',
+    '^@components$': '<rootDir>/src/app/shared/components',
+    '^@components/(.*)$': '<rootDir>/src/app/shared/components/$1',
   },
 };
 

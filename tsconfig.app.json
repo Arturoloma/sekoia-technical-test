@@ -4,9 +4,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": [
-      "node"
-    ],
+    "types": ["node"],
     "paths": {
       "@models": ["src/app/models"],
       "@models/*": ["src/app/models/*"],
@@ -15,13 +13,11 @@
       "@interceptors": ["src/app/core/interceptors"],
       "@interceptors/*": ["src/app/core/interceptors/*"],
       "@core": ["src/app/core"],
-      "@core/*": ["src/app/core/*"]
+      "@core/*": ["src/app/core/*"],
+      "@components": ["src/app/shared/components"],
+      "@components/*": ["src/app/shared/components/*"]
     }
   },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "src/**/*.spec.ts"
-  ]
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/*.spec.ts"]
 }

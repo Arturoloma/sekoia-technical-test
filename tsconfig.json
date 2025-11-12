@@ -24,7 +24,9 @@
       "@interceptors": ["src/app/core/interceptors"],
       "@interceptors/*": ["src/app/core/interceptors/*"],
       "@core": ["src/app/core"],
-      "@core/*": ["src/app/core/*"]
+      "@core/*": ["src/app/core/*"],
+      "@components": ["src/app/shared/components"],
+      "@components/*": ["src/app/shared/components/*"]
     }
   },
   "angularCompilerOptions": {

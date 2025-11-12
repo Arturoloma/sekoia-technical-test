@@ -1,0 +1,10 @@
+@use 'tokens' as *;
+
+.first-paragraph {
+  margin-top: 0;
+}
+
+.flags {
+  display: flex;
+  gap: $spacing-12-px;
+}

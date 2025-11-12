@@ -1,0 +1,13 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.badge {
+  @include sek-text-caption-m;
+
+  color: $color-secondary-500;
+  background-color: $color-background;
+  display: inline-block;
+  padding: $spacing-4-px $spacing-12-px;
+  border-radius: $border-radius-circle;
+  border: 1px solid $color-border;
+}

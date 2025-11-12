@@ -3,17 +3,9 @@
 } @else if (store.error()) {
   <p>Error: {{ store.error() }}</p>
 } @else {
-  @for (joke of store.jokes(); track joke.id; let first = $first) {
-    <article>
-      @if (!first) {
-        <hr />
-      }
-      @if (joke.type === JokeType.SINGLE) {
-        <p>{{ joke.joke }}</p>
-      } @else {
-        <p>{{ joke.setup }}</p>
-        <p>{{ joke.delivery }}</p>
-      }
-    </article>
-  }
+  <section class="jokes">
+    @for (joke of store.jokes(); track joke.id; let first = $first) {
+      <sek-joke [joke]="joke"></sek-joke>
+    }
+  </section>
 }

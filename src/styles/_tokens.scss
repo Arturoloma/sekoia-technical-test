@@ -23,6 +23,7 @@ $color-border-secondary: #e2e4f0;
 
 // Content Colors
 $color-icon-subtle: #6d6e9c;
+$color-secondary-500: #2d2e83;
 $color-text: #21225f;
 $color-text-subtle: #6d6e9c;
 
@@ -31,7 +32,7 @@ $color-text-subtle: #6d6e9c;
 // --------------------------------------------
 
 $container-max-width: 835px;
-$container-padding: $spacing-24-px;
+$container-padding: 24px;
 
 // --------------------------------------------
 // Sizing
@@ -92,4 +93,4 @@ $font-weight-semibold: 600;
 $font-weight-bold: 700;
 
 // Line Heights
-$line-height-m: $size-20-px;
+$line-height-m: 20px;
