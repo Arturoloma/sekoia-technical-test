@@ -1,18 +1,6 @@
-nav {
-  display: flex;
-  gap: 1rem;
-  padding: 1rem;
-  background: #f0f0f0;
+@use 'tokens' as *;
 
-  a {
-    padding: 0.5rem 1rem;
-    text-decoration: none;
-    color: #333;
-    border-radius: 4px;
-
-    &.active {
-      background: #007bff;
-      color: white;
-    }
-  }
+.jokes-container {
+  background-color: $color-background-secondary;
+  padding: $spacing-8-px;
 }

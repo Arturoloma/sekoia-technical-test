@@ -13,12 +13,12 @@ export const initialState: JokesState = {
   filters: {
     amount: 10,
     blacklistFlags: {
-      explicit: false,
-      nsfw: false,
-      political: false,
-      racist: false,
-      religious: false,
-      sexist: false,
+      explicit: true,
+      nsfw: true,
+      political: true,
+      racist: true,
+      religious: true,
+      sexist: true,
     },
     category: JokeCategory.ANY,
     contains: undefined,

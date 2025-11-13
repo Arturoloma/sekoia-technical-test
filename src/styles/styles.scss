@@ -1,0 +1,26 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+// ============================================
+// Base Styles
+// ============================================
+
+body {
+  @include sek-text-s;
+
+  margin: 0;
+  color: $color-text;
+  background: $color-background-secondary;
+}
+
+:where(h1) {
+  @include sek-title-m;
+
+  width: fit-content;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}

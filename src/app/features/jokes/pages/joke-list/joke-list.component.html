@@ -1,11 +1,15 @@
-@if (store.isLoading()) {
-  <p>Loading jokes...</p>
-} @else if (store.error()) {
-  <p>Error: {{ store.error() }}</p>
-} @else {
-  <section class="jokes">
-    @for (joke of store.jokes(); track joke.id; let first = $first) {
-      <sek-joke [joke]="joke"></sek-joke>
-    }
-  </section>
-}
+<article class="joke-list">
+  <h1 class="title">WikiJokes</h1>
+
+  @if (store.isLoading()) {
+    <p>Loading jokes...</p>
+  } @else if (store.error()) {
+    <p>Error: {{ store.error() }}</p>
+  } @else {
+    <section class="jokes">
+      @for (joke of store.jokes(); track joke.id; let first = $first) {
+        <sek-joke [joke]="joke"></sek-joke>
+      }
+    </section>
+  }
+</article>

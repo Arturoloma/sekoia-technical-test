@@ -1,7 +1,18 @@
 @use 'tokens' as *;
 
+.joke-list {
+  background-color: $color-background;
+  max-width: $container-max-width;
+  padding: $spacing-24-px;
+  margin-inline: auto;
+}
+
 .jokes {
   display: flex;
   flex-direction: column;
   gap: $spacing-8-px;
+}
+
+.title {
+  margin-inline: auto;
 }
