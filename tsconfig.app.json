@@ -15,7 +15,9 @@
       "@core": ["src/app/core"],
       "@core/*": ["src/app/core/*"],
       "@components": ["src/app/shared/components"],
-      "@components/*": ["src/app/shared/components/*"]
+      "@components/*": ["src/app/shared/components/*"],
+      "@utils": ["src/app/shared/utils"],
+      "@utils/*": ["src/app/shared/utils/*"]
     }
   },
   "include": ["src/**/*.ts"],

@@ -6,9 +6,9 @@
       <p class="first-paragraph">{{ joke().setup }}</p>
       <p>{{ joke().delivery }}</p>
     }
-    <section class="flags">
-      @for (flag of flags(); track flag) {
-        <sek-badge [textContent]="flag"></sek-badge>
+    <section class="badges">
+      @for (badge of badges(); track badge) {
+        <sek-badge [textContent]="badge"></sek-badge>
       }
     </section>
   </sek-card>

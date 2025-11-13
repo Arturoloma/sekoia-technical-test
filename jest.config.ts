@@ -33,6 +33,8 @@ const config: Config = {
     '^@core/(.*)$': '<rootDir>/src/app/core/$1',
     '^@components$': '<rootDir>/src/app/shared/components',
     '^@components/(.*)$': '<rootDir>/src/app/shared/components/$1',
+    '^@utils$': '<rootDir>/src/app/shared/utils',
+    '^@utils/(.*)$': '<rootDir>/src/app/shared/utils/$1',
   },
 };
 

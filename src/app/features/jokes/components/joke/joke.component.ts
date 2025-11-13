@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { BadgeComponent, CardComponent } from '@components';
 import { Joke, JokeType } from '@models';
+import { firstCharToLocaleUpperCase } from '@utils';
 
 @Component({
   selector: 'sek-joke',
@@ -12,11 +13,18 @@ import { Joke, JokeType } from '@models';
 })
 export class JokeComponent {
   public joke = input.required<Joke>();
-  public flags = computed<string[]>(() =>
-    Object.entries(this.joke().flags)
-      .filter(([, value]) => value)
-      .map(([key]) => `${key.slice(0, 1).toLocaleUpperCase()}${key.slice(1)}`),
-  );
+  public badges = computed<string[]>(() => {
+    const joke = this.joke();
+
+    return [
+      joke.type === JokeType.SINGLE ? 'Single' : 'Two-part',
+      ...Object.entries(joke.flags)
+        .filter(([, value]) => value)
+        .map(([key]) => firstCharToLocaleUpperCase(key)),
+
+      firstCharToLocaleUpperCase(joke.category),
+    ];
+  });
 
   public readonly JokeType = JokeType;
 }
