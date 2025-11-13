@@ -37,7 +37,7 @@ export const jokesStore = signalStore(
   withState(initialState),
 
   withMethods((store, jokesApiService = inject(JokeApiService)) => ({
-    loadJokes: rxMethod<Partial<GetJokesParameters>>(
+    getJokes: rxMethod<Partial<GetJokesParameters>>(
       pipe(
         tap(() => patchState(store, { isLoading: true, error: null })),
         switchMap((params: Partial<GetJokesParameters>) => {
@@ -82,7 +82,7 @@ export const jokesStore = signalStore(
 
   withHooks({
     onInit(store) {
-      store.loadJokes(store.filters());
+      store.getJokes(store.filters());
     },
   }),
 );

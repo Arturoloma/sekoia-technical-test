@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { HttpClient, HttpContext, provideHttpClient, withInterceptors } from '@angular/common/http';
-import { httpErrorInterceptor, SKIP_ERROR_INTERCEPTOR } from './http-error.interceptor';
+import { httpErrorInterceptor, MOCK_ERROR, SKIP_ERROR_INTERCEPTOR } from './http-error.interceptor';
 
 describe('httpErrorInterceptor', () => {
   let httpClient: HttpClient;
@@ -43,6 +43,24 @@ describe('httpErrorInterceptor', () => {
 
       const req = httpTestingController.expectOne(testUrl);
       req.flush(mockData);
+    });
+  });
+
+  describe('Mock error handling', () => {
+    it('should return a mock error when MOCK_ERROR is true', (done) => {
+      httpClient
+        .get(testUrl, {
+          context: new HttpContext().set(MOCK_ERROR, true),
+        })
+        .subscribe({
+          next: () => fail('Should have errored'),
+          error: (error: Error) => {
+            expect(error.message).toContain('Mock error');
+            done();
+          },
+        });
+
+      httpTestingController.expectNone(testUrl);
     });
   });
 

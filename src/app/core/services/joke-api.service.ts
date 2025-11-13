@@ -49,6 +49,8 @@ export class JokeApiService {
       httpParams = httpParams.set('type', params.type);
     }
 
-    return this._httpClient.get<JokeApiResponse>(url, { params: httpParams });
+    return this._httpClient.get<JokeApiResponse>(url, {
+      params: httpParams,
+    });
   }
 }

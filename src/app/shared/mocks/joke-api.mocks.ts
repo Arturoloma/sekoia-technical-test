@@ -89,7 +89,7 @@ export function createMockJoke(overrides: Partial<Joke> = {}): Joke {
   };
 }
 
-export function createMockSingleResponse(
+export function createMockSingleJokeResponse(
   overrides: Partial<SingleJokeResponse> = {},
 ): SingleJokeResponse {
   return {
@@ -98,7 +98,7 @@ export function createMockSingleResponse(
   };
 }
 
-export function createMockMultipleResponse(
+export function createMockMultipleJokesResponse(
   jokes: Joke[],
   overrides: Partial<MultipleJokesResponse> = {},
 ): MultipleJokesResponse {
@@ -111,7 +111,7 @@ export function createMockMultipleResponse(
   };
 }
 
-export function createMockErrorResponse(
+export function createMockJokeErrorResponse(
   overrides: Partial<JokeErrorResponse> = {},
 ): JokeErrorResponse {
   return {

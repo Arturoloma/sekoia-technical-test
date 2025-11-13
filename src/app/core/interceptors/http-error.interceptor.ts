@@ -7,6 +7,7 @@ import {
 } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
 
+export const MOCK_ERROR = new HttpContextToken<boolean>(() => false);
 export const SKIP_ERROR_INTERCEPTOR = new HttpContextToken<boolean>(() => false);
 
 export const httpErrorInterceptor: HttpInterceptorFn = (
@@ -15,6 +16,10 @@ export const httpErrorInterceptor: HttpInterceptorFn = (
 ) => {
   if (req.context.get(SKIP_ERROR_INTERCEPTOR)) {
     return next(req);
+  }
+
+  if (req.context.get(MOCK_ERROR)) {
+    return throwError(() => new Error('Mock error'));
   }
 
   return next(req).pipe(
