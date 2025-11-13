@@ -29,7 +29,8 @@
             "stylePreprocessorOptions": {
               "includePaths": ["src/styles"]
             },
-            "styles": ["src/styles/styles.scss"]
+            "styles": ["src/styles/styles.scss"],
+            "polyfills": ["@angular/localize/init"]
           },
           "configurations": {
             "production": {
