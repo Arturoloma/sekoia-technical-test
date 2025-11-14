@@ -49,7 +49,6 @@
     "@ng-icons/heroicons": "^32.4.0",
     "@ngrx/signals": "^20.1.0",
     "express": "^5.1.0",
-    "ngx-infinite-scroll": "^20.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
