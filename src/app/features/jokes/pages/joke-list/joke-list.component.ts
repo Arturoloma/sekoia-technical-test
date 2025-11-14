@@ -5,7 +5,7 @@ import { jokesStore } from '../../store/jokes.store';
 import { JokeType } from '@models';
 import { JokeComponent } from '../../components/joke/joke.component';
 import { SearchInputDirective } from '@directives';
-import { debounceTime } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { SpinnerComponent } from '@components';
 
 @Component({
@@ -28,11 +28,20 @@ export class JokeListComponent implements OnInit {
   private readonly _destroyRef = inject(DestroyRef);
 
   public ngOnInit(): void {
+    this._updateFiltersOnSearch();
+  }
+
+  private _updateFiltersOnSearch(): void {
     this.searchJokesForm
       .get('search')
-      ?.valueChanges.pipe(debounceTime(300), takeUntilDestroyed(this._destroyRef))
-      .subscribe((searchValue) => {
-        this.store.updateFilters({ contains: searchValue ?? undefined });
+      ?.valueChanges.pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        takeUntilDestroyed(this._destroyRef),
+      )
+      .subscribe((searchValue: string | null) => {
+        const trimmedValue = searchValue?.trim();
+        this.store.updateFilters({ contains: trimmedValue || undefined });
       });
   }
 }
