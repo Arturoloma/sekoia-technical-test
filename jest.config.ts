@@ -35,6 +35,10 @@ const config: Config = {
     '^@components/(.*)$': '<rootDir>/src/app/shared/components/$1',
     '^@utils$': '<rootDir>/src/app/shared/utils',
     '^@utils/(.*)$': '<rootDir>/src/app/shared/utils/$1',
+    '^@directives$': '<rootDir>/src/app/shared/directives',
+    '^@directives/(.*)$': '<rootDir>/src/app/shared/directives/$1',
+    '^@styles$': '<rootDir>/src/styles/index.ts',
+    '^@styles/(.*)$': '<rootDir>/src/styles/$1',
   },
 };
 

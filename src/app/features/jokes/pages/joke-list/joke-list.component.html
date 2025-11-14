@@ -1,6 +1,8 @@
 <article class="joke-list">
   <h1 class="title">WikiJokes</h1>
 
+  <input sekSearchInput class="search-bar" type="search" placeholder="find a joke" />
+
   @if (store.isLoading()) {
     <p>Loading jokes...</p>
   } @else if (store.error()) {

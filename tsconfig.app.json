@@ -17,7 +17,11 @@
       "@components": ["src/app/shared/components"],
       "@components/*": ["src/app/shared/components/*"],
       "@utils": ["src/app/shared/utils"],
-      "@utils/*": ["src/app/shared/utils/*"]
+      "@utils/*": ["src/app/shared/utils/*"],
+      "@directives": ["src/app/shared/directives"],
+      "@directives/*": ["src/app/shared/directives/*"],
+      "@styles": ["src/styles/index.ts"],
+      "@styles/*": ["src/styles/*"],
     }
   },
   "include": ["src/**/*.ts"],
