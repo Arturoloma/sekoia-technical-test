@@ -1,8 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { jokesStore } from '../../store/jokes.store';
 import { JokeType } from '@models';
 import { JokeComponent } from '../../components/joke/joke.component';
 import { SearchInputDirective } from '@directives';
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'sek-joke-list',
@@ -10,10 +13,25 @@ import { SearchInputDirective } from '@directives';
   styleUrls: ['./joke-list.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [JokeComponent, SearchInputDirective],
+  imports: [JokeComponent, ReactiveFormsModule, SearchInputDirective],
 })
-export class JokeListComponent {
+export class JokeListComponent implements OnInit {
   public readonly store = inject(jokesStore);
 
+  public readonly searchJokesForm = new FormGroup({
+    search: new FormControl<string>(''),
+  });
+
   public readonly JokeType = JokeType;
+
+  private readonly _destroyRef = inject(DestroyRef);
+
+  public ngOnInit(): void {
+    this.searchJokesForm
+      .get('search')
+      ?.valueChanges.pipe(debounceTime(300), takeUntilDestroyed(this._destroyRef))
+      .subscribe((searchValue) => {
+        this.store.updateFilters({ contains: searchValue ?? undefined });
+      });
+  }
 }

@@ -1,6 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { HttpClient, HttpContext, provideHttpClient, withInterceptors } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpContext,
+  HttpErrorResponse,
+  provideHttpClient,
+  withInterceptors,
+} from '@angular/common/http';
 import { httpErrorInterceptor, MOCK_ERROR, SKIP_ERROR_INTERCEPTOR } from './http-error.interceptor';
 
 describe('httpErrorInterceptor', () => {
@@ -68,11 +74,12 @@ describe('httpErrorInterceptor', () => {
     it('should handle 400 Bad Request errors', (done) => {
       httpClient.get(testUrl).subscribe({
         next: () => fail('Should have errored'),
-        error: (error: Error) => {
-          expect(error.message).toContain('Bad Request');
+        error: (error: HttpErrorResponse) => {
+          expect(error.status).toBe(400);
           expect(console.error).toHaveBeenCalledWith(
             'HTTP Error:',
             expect.objectContaining({
+              message: expect.stringContaining('Bad Request'),
               status: 400,
               url: testUrl,
             }),
@@ -88,11 +95,12 @@ describe('httpErrorInterceptor', () => {
     it('should handle 401 Unauthorized errors', (done) => {
       httpClient.get(testUrl).subscribe({
         next: () => fail('Should have errored'),
-        error: (error: Error) => {
-          expect(error.message).toBe('Unauthorized: Please log in again.');
+        error: (error: HttpErrorResponse) => {
+          expect(error.status).toBe(401);
           expect(console.error).toHaveBeenCalledWith(
             'HTTP Error:',
             expect.objectContaining({
+              message: 'Unauthorized: Please log in again.',
               status: 401,
             }),
           );
@@ -107,11 +115,12 @@ describe('httpErrorInterceptor', () => {
     it('should handle 403 Forbidden errors', (done) => {
       httpClient.get(testUrl).subscribe({
         next: () => fail('Should have errored'),
-        error: (error: Error) => {
-          expect(error.message).toBe('Forbidden: You do not have permission to do this.');
+        error: (error: HttpErrorResponse) => {
+          expect(error.status).toBe(403);
           expect(console.error).toHaveBeenCalledWith(
             'HTTP Error:',
             expect.objectContaining({
+              message: 'Forbidden: You do not have permission to do this.',
               status: 403,
             }),
           );
@@ -126,8 +135,8 @@ describe('httpErrorInterceptor', () => {
     it('should handle 404 Not Found errors', (done) => {
       httpClient.get(testUrl).subscribe({
         next: () => fail('Should have errored'),
-        error: (error: Error) => {
-          expect(error.message).toContain('Not Found');
+        error: (error: HttpErrorResponse) => {
+          expect(error.status).toBe(404);
           expect(console.error).toHaveBeenCalledWith(
             'HTTP Error:',
             expect.objectContaining({
@@ -145,11 +154,12 @@ describe('httpErrorInterceptor', () => {
     it('should handle 500 Internal Server Error', (done) => {
       httpClient.get(testUrl).subscribe({
         next: () => fail('Should have errored'),
-        error: (error: Error) => {
-          expect(error.message).toBe('Internal Server Error: Please try again later.');
+        error: (error: HttpErrorResponse) => {
+          expect(error.status).toBe(500);
           expect(console.error).toHaveBeenCalledWith(
             'HTTP Error:',
             expect.objectContaining({
+              message: 'Internal Server Error: Please try again later.',
               status: 500,
             }),
           );
@@ -164,11 +174,12 @@ describe('httpErrorInterceptor', () => {
     it('should handle unknown HTTP errors with generic message', (done) => {
       httpClient.get(testUrl).subscribe({
         next: () => fail('Should have errored'),
-        error: (error: Error) => {
-          expect(error.message).toContain('Server error (503)');
+        error: (error: HttpErrorResponse) => {
+          expect(error.status).toBe(503);
           expect(console.error).toHaveBeenCalledWith(
             'HTTP Error:',
             expect.objectContaining({
+              message: expect.stringContaining('Server error (503)'),
               status: 503,
             }),
           );
@@ -189,7 +200,7 @@ describe('httpErrorInterceptor', () => {
         })
         .subscribe({
           next: () => fail('Should have errored with HttpErrorResponse'),
-          error: (error) => {
+          error: (error: HttpErrorResponse) => {
             expect(error.status).toBe(500);
             expect(error.statusText).toBe('Internal Server Error');
             expect(console.error).not.toHaveBeenCalled();
@@ -229,8 +240,8 @@ describe('httpErrorInterceptor', () => {
 
       httpClient.get(testUrl).subscribe({
         next: () => fail('Should have errored'),
-        error: (error: Error) => {
-          expect(error.message).toBe('Client error: Connection refused');
+        error: (error: HttpErrorResponse) => {
+          expect(error.status).toBe(0);
           expect(console.error).toHaveBeenCalledWith(
             'HTTP Error:',
             expect.objectContaining({

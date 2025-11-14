@@ -2,9 +2,9 @@ import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { patchState, signalStore, withHooks, withMethods, withState } from '@ngrx/signals';
 import { JokesState } from './jokes.store.model';
 import { GetJokesParameters, JokeApiResponse, JokeCategory, JokeLanguage } from '@models';
-import { inject } from '@angular/core';
+import { effect, inject } from '@angular/core';
 import { JokeApiService } from '@core/services';
-import { catchError, pipe, switchMap, tap, throwError } from 'rxjs';
+import { catchError, of, pipe, switchMap, tap } from 'rxjs';
 
 export const initialState: JokesState = {
   jokes: [],
@@ -48,7 +48,7 @@ export const jokesStore = signalStore(
               if (response.error) {
                 patchState(store, {
                   isLoading: false,
-                  error: response.message,
+                  error: response,
                 });
                 return;
               }
@@ -70,19 +70,32 @@ export const jokesStore = signalStore(
             catchError((error) => {
               patchState(store, {
                 isLoading: false,
-                error: error.message,
+                error: error.error,
               });
-              return throwError(() => new Error(error));
+              return of(null);
             }),
           );
         }),
       ),
     ),
+    updateFilters: (filters: Partial<GetJokesParameters>): void => {
+      patchState(store, {
+        filters: {
+          ...store.filters(),
+          ...filters,
+        },
+      });
+    },
   })),
 
   withHooks({
     onInit(store) {
       store.getJokes(store.filters());
+
+      effect(() => {
+        const filters = store.filters();
+        store.getJokes(filters);
+      });
     },
   }),
 );

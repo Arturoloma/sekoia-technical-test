@@ -1,12 +1,23 @@
 <article class="joke-list">
   <h1 class="title">WikiJokes</h1>
 
-  <input sekSearchInput class="search-bar" type="search" placeholder="find a joke" />
+  <form [formGroup]="searchJokesForm">
+    <input
+      sekSearchInput
+      class="search"
+      type="search"
+      placeholder="find a joke"
+      formControlName="search"
+    />
+  </form>
 
   @if (store.isLoading()) {
     <p>Loading jokes...</p>
-  } @else if (store.error()) {
-    <p>Error: {{ store.error() }}</p>
+  } @else if (store.error() !== null) {
+    <section>
+      <p>{{ store.error()?.message }}</p>
+      <p>{{ store.error()?.additionalInfo }}</p>
+    </section>
   } @else {
     <section class="jokes">
       @for (joke of store.jokes(); track joke.id; let first = $first) {

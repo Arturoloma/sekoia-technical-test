@@ -1,9 +1,9 @@
-import { GetJokesParameters, Joke } from '@models';
+import { GetJokesParameters, Joke, JokeErrorResponse } from '@models';
 
 export interface JokesState {
   jokes: Joke[];
   isLoading: boolean;
-  error: string | null;
+  error: JokeErrorResponse | null;
   filters: GetJokesParameters;
   pagination: JokesPagination;
 }

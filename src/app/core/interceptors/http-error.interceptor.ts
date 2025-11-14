@@ -59,7 +59,7 @@ export const httpErrorInterceptor: HttpInterceptorFn = (
         error,
       });
 
-      return throwError(() => new Error(errorMessage));
+      return throwError(() => error);
     }),
   );
 };

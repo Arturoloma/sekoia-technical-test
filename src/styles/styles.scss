@@ -19,6 +19,11 @@ body {
   width: fit-content;
 }
 
+:where(input[type='search'])::-webkit-search-decoration:hover,
+:where(input[type='search'])::-webkit-search-cancel-button:hover {
+  cursor: pointer;
+}
+
 *,
 *::before,
 *::after {
