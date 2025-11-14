@@ -56,7 +56,7 @@ export class SearchInputDirective implements OnInit, OnDestroy {
 
   private _styleHostInput(): void {
     const input = this._elementRef.nativeElement;
-    this._renderer.setStyle(input, 'border', `1px solid ${Tokens.colorBorder}`);
+    this._renderer.setStyle(input, 'border', `${Tokens.size1Px} solid ${Tokens.colorBorder}`);
     this._renderer.setStyle(input, 'padding-left', '38px');
     this._renderer.setStyle(input, 'padding-right', Tokens.spacing12Px);
     this._renderer.setStyle(input, 'border-radius', Tokens.borderRadiusM);

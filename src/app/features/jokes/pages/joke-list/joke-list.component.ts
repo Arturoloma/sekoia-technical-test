@@ -6,6 +6,7 @@ import { JokeType } from '@models';
 import { JokeComponent } from '../../components/joke/joke.component';
 import { SearchInputDirective } from '@directives';
 import { debounceTime } from 'rxjs';
+import { SpinnerComponent } from '@components';
 
 @Component({
   selector: 'sek-joke-list',
@@ -13,7 +14,7 @@ import { debounceTime } from 'rxjs';
   styleUrls: ['./joke-list.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [JokeComponent, ReactiveFormsModule, SearchInputDirective],
+  imports: [JokeComponent, ReactiveFormsModule, SearchInputDirective, SpinnerComponent],
 })
 export class JokeListComponent implements OnInit {
   public readonly store = inject(jokesStore);

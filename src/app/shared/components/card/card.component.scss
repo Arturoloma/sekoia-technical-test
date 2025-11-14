@@ -7,6 +7,6 @@
   color: $color-text;
   background-color: $color-elevation-surface;
   border-radius: $border-radius-m;
-  border: 1px solid $color-border-secondary;
+  border: $size-1-px solid $color-border-secondary;
   padding: $spacing-8-px;
 }

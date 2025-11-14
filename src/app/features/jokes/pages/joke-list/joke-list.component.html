@@ -12,7 +12,7 @@
   </form>
 
   @if (store.isLoading()) {
-    <p>Loading jokes...</p>
+    <sek-spinner class="loader"></sek-spinner>
   } @else if (store.error() !== null) {
     <section>
       <p>{{ store.error()?.message }}</p>

@@ -1,0 +1,21 @@
+@use 'tokens' as *;
+
+.spinner {
+  width: $size-48-px;
+  height: $size-48-px;
+  border: $size-4-px solid $color-text;
+  border-bottom-color: transparent;
+  border-radius: $border-radius-circle;
+  display: inline-block;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
