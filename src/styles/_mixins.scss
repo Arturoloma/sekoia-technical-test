@@ -32,6 +32,26 @@
   );
 }
 
+@mixin sek-title-s($family: $font-family-normal, $weight: $font-weight-bold, $line-height: 140%) {
+  @include typography(
+    $family: $family,
+    $size: $font-size-xl,
+    $weight: $weight,
+    $line-height: $line-height,
+    $letter-spacing: 0
+  );
+}
+
+@mixin sek-title-xs($family: $font-family-normal, $weight: $font-weight-bold, $line-height: 140%) {
+  @include typography(
+    $family: $family,
+    $size: $font-size-l,
+    $weight: $weight,
+    $line-height: $line-height,
+    $letter-spacing: 0
+  );
+}
+
 @mixin sek-text-s(
   $family: $font-family-normal,
   $weight: $font-weight-regular,

@@ -83,3 +83,7 @@ export interface GetJokesParameters {
   safeMode: boolean;
   type?: JokeType;
 }
+
+export interface SubmitJokeParameters extends Omit<Joke, 'id'> {
+  formatVersion: 3;
+}

@@ -1,1 +1,37 @@
-<p>joke-submit works!</p>
+@let jokeType = jokeForm.get('type')?.value ?? JokeType.SINGLE;
+
+<article class="joke-submit">
+  <header>
+    <h2 class="title">Submit a Joke!</h2>
+  </header>
+  <div
+    role="listbox"
+    aria-orientation="horizontal"
+    tabindex="0"
+    id="jokeType"
+    aria-label="Joke type"
+    aria-activedescendant="jokeTypeSingle"
+    class="joke-type-select"
+  >
+    <button
+      id="jokeTypeSingle"
+      role="option"
+      [attr.aria-selected]="jokeType === JokeType.SINGLE"
+      sekButton
+      [active]="jokeType === JokeType.SINGLE"
+      (click)="selectJokeType(JokeType.SINGLE)"
+    >
+      Single
+    </button>
+    <button
+      id="jokeTypeTwopart"
+      role="option"
+      [attr.aria-selected]="jokeType === JokeType.TWO_PART"
+      sekButton
+      [active]="jokeType === JokeType.TWO_PART"
+      (click)="selectJokeType(JokeType.TWO_PART)"
+    >
+      Two-part
+    </button>
+  </div>
+</article>

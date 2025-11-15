@@ -14,10 +14,20 @@ body {
   padding: $spacing-8-px;
 }
 
+:where(h1, h2, h3, h4, h5, h6) {
+  width: fit-content;
+}
+
 :where(h1) {
   @include sek-title-m;
+}
 
-  width: fit-content;
+:where(h2) {
+  @include sek-title-s;
+}
+
+:where(h3) {
+  @include sek-title-xs;
 }
 
 :where(input[type='search'])::-webkit-search-decoration:hover,

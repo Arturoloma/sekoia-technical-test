@@ -1,0 +1,21 @@
+@use 'tokens' as *;
+
+.joke-submit {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-16-px;
+}
+
+.joke-type-select {
+  display: flex;
+  gap: $spacing-8-px;
+  align-self: center;
+
+  & button {
+    min-width: $size-64-px !important;
+  }
+}
+
+.title {
+  margin: 0;
+}

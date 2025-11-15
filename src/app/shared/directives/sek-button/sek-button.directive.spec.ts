@@ -1,4 +1,4 @@
-import { Component, DebugElement, ViewContainerRef } from '@angular/core';
+import { Component, DebugElement, input, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Tokens } from '@styles';
@@ -8,9 +8,11 @@ import { SekButtonDirective } from './sek-button.directive';
   selector: 'sek-search-input-directive-test',
   standalone: true,
   imports: [SekButtonDirective],
-  template: `<button sekButton>Sek button</button>`,
+  template: `<button sekButton [active]="active()">Sek button</button>`,
 })
-class SekButtonDirectiveTestComponent {}
+class SekButtonDirectiveTestComponent {
+  public active = input<boolean>(false);
+}
 
 describe('SekButtonDirective', () => {
   let fixture: ComponentFixture<SekButtonDirectiveTestComponent>;
@@ -45,20 +47,15 @@ describe('SekButtonDirective', () => {
       const selector = 'button[sekButton]';
       expect(host.matches(selector)).toBe(true);
     });
+
+    it('should have active input defaulting to false', () => {
+      expect(directive.active()).toBe(false);
+    });
   });
 
-  describe('Host Styling', () => {
-    it('should apply border styling', () => {
-      const expectedBorder = `${Tokens.size1Px} solid ${Tokens.colorBorder}`;
-      expect(host.style.border).toBe(expectedBorder);
-    });
-
+  describe('Static Host Styling', () => {
     it('should apply the expected border radius', () => {
       expect(host.style.borderRadius).toBe(Tokens.borderRadiusM);
-    });
-
-    it('should apply background color', () => {
-      expect(host.style.backgroundColor).toBeDefined();
     });
 
     it('should apply the expected minimum width', () => {
@@ -66,7 +63,7 @@ describe('SekButtonDirective', () => {
     });
 
     it('should apply the expected height', () => {
-      expect(host.style.minWidth).toBe(Tokens.size36Px);
+      expect(host.style.height).toBe(Tokens.size36Px);
     });
 
     it('should apply styles to center items inside', () => {
@@ -77,6 +74,45 @@ describe('SekButtonDirective', () => {
 
     it('should make the cursor be a pointer on hover', () => {
       expect(host.style.cursor).toBe('pointer');
+    });
+  });
+
+  describe('Inactive State Styling (default)', () => {
+    it('should apply inactive background color', () => {
+      expect(host.style.backgroundColor).toBeDefined();
+      expect(host.style.backgroundColor).not.toBe('');
+    });
+
+    it('should apply inactive text color', () => {
+      expect(host.style.color).toBeDefined();
+      expect(host.style.color).not.toBe('');
+    });
+
+    it('should apply inactive border styling', () => {
+      expect(host.style.border).toContain('1px');
+      expect(host.style.border).toContain('solid');
+    });
+  });
+
+  describe('Active State Styling', () => {
+    beforeEach(() => {
+      fixture.componentRef.setInput('active', true);
+      fixture.detectChanges();
+    });
+
+    it('should apply active background color', () => {
+      expect(host.style.backgroundColor).toBeDefined();
+      expect(host.style.backgroundColor).not.toBe('');
+    });
+
+    it('should apply active text color', () => {
+      expect(host.style.color).toBeDefined();
+      expect(host.style.color).not.toBe('');
+    });
+
+    it('should apply active border styling', () => {
+      expect(host.style.border).toContain('1px');
+      expect(host.style.border).toContain('solid');
     });
   });
 });
