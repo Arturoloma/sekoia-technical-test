@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { jokesStore } from '../../store/jokes.store';
-import { JokeType } from '@models';
-import { JokeComponent } from '../../components/joke/joke.component';
-import { SearchInputDirective } from '@directives';
-import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { SpinnerComponent } from '@components';
+import { SekButtonDirective, SekSearchInputDirective } from '@directives';
+import { JokeType } from '@models';
+import { NgIcon } from '@ng-icons/core';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { JokeComponent } from '../../components/joke/joke.component';
+import { jokesStore } from '../../store/jokes.store';
 
 @Component({
   selector: 'sek-joke-list',
@@ -14,7 +15,14 @@ import { SpinnerComponent } from '@components';
   styleUrls: ['./joke-list.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [JokeComponent, ReactiveFormsModule, SearchInputDirective, SpinnerComponent],
+  imports: [
+    NgIcon,
+    JokeComponent,
+    ReactiveFormsModule,
+    SekButtonDirective,
+    SekSearchInputDirective,
+    SpinnerComponent,
+  ],
 })
 export class JokeListComponent implements OnInit {
   public readonly store = inject(jokesStore);

@@ -5,10 +5,13 @@ import {
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
-import { routes } from './app.routes';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { httpErrorInterceptor } from '@interceptors';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideIcons, provideNgIconsConfig, withExceptionLogger } from '@ng-icons/core';
+import { heroMagnifyingGlass, heroPlus } from '@ng-icons/heroicons/outline';
+import { Tokens } from '@styles';
+import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,5 +20,13 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
     provideHttpClient(withInterceptors([httpErrorInterceptor])),
+    provideNgIconsConfig(
+      {
+        size: '18px',
+        color: Tokens.colorIconSubtle,
+      },
+      withExceptionLogger(),
+    ),
+    provideIcons({ heroMagnifyingGlass, heroPlus }),
   ],
 };

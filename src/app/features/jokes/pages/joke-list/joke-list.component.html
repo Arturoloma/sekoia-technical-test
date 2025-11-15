@@ -1,28 +1,35 @@
 <article class="joke-list">
   <h1 class="title">WikiJokes</h1>
 
-  <form [formGroup]="searchJokesForm">
-    <input
-      sekSearchInput
-      class="search"
-      type="search"
-      placeholder="find a joke"
-      formControlName="search"
-    />
-  </form>
+  <div class="search-container">
+    <form class="search-form" [formGroup]="searchJokesForm">
+      <input
+        sekSearchInput
+        class="search-form__bar"
+        type="search"
+        placeholder="find a joke"
+        formControlName="search"
+      />
+    </form>
+    <button sekButton class="go-to-joke-submit">
+      <ng-icon [name]="'hero-plus'" [size]="'18'" [color]="'black'"></ng-icon>
+    </button>
+  </div>
 
-  @if (store.isLoading()) {
-    <sek-spinner class="loader"></sek-spinner>
-  } @else if (store.error() !== null) {
-    <section>
-      <p>{{ store.error()?.message }}</p>
-      <p>{{ store.error()?.additionalInfo }}</p>
-    </section>
-  } @else {
-    <section class="jokes">
-      @for (joke of store.jokes(); track joke.id; let first = $first) {
-        <sek-joke [joke]="joke"></sek-joke>
-      }
-    </section>
-  }
+  <section>
+    @if (store.isLoading()) {
+      <sek-spinner class="loader"></sek-spinner>
+    } @else if (store.error() !== null) {
+      <div>
+        <p>{{ store.error()?.message }}</p>
+        <p>{{ store.error()?.additionalInfo }}</p>
+      </div>
+    } @else {
+      <div class="jokes">
+        @for (joke of store.jokes(); track joke.id; let first = $first) {
+          <sek-joke [joke]="joke"></sek-joke>
+        }
+      </div>
+    }
+  </section>
 </article>

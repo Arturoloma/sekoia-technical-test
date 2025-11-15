@@ -1,0 +1,7 @@
+rules:
+  html-has-lang: false
+
+exclude:
+  - "dist/**"
+  - "node_modules/**"
+  - "**/*.spec.ts"

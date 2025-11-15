@@ -1,34 +1,34 @@
 import { Component, DebugElement, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { SearchInputDirective } from './search-input.directive';
+import { SekSearchInputDirective } from './sek-search-input.directive';
 import { NgIconComponent } from '@ng-icons/core';
 import { Tokens } from '@styles';
 
 @Component({
   selector: 'sek-search-input-directive-test',
   standalone: true,
-  imports: [SearchInputDirective],
+  imports: [SekSearchInputDirective],
   template: `<input type="search" sekSearchInput />`,
 })
-class SearchInputDirectiveTestComponent {}
+class SekSearchInputDirectiveTestComponent {}
 
-describe('SearchInputDirective', () => {
-  let fixture: ComponentFixture<SearchInputDirectiveTestComponent>;
+describe('SekSearchInputDirective', () => {
+  let fixture: ComponentFixture<SekSearchInputDirectiveTestComponent>;
   let hostInput: HTMLInputElement;
   let inputDebugElement: DebugElement;
-  let directive: SearchInputDirective;
+  let directive: SekSearchInputDirective;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SearchInputDirectiveTestComponent, SearchInputDirective, NgIconComponent],
+      imports: [SekSearchInputDirectiveTestComponent, SekSearchInputDirective, NgIconComponent],
       providers: [ViewContainerRef],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SearchInputDirectiveTestComponent);
-    inputDebugElement = fixture.debugElement.query(By.directive(SearchInputDirective));
+    fixture = TestBed.createComponent(SekSearchInputDirectiveTestComponent);
+    inputDebugElement = fixture.debugElement.query(By.directive(SekSearchInputDirective));
     hostInput = inputDebugElement.nativeElement as HTMLInputElement;
-    directive = inputDebugElement.injector.get(SearchInputDirective);
+    directive = inputDebugElement.injector.get(SekSearchInputDirective);
 
     fixture.detectChanges();
   });

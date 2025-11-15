@@ -1,12 +1,12 @@
 import {
+  ComponentRef,
   Directive,
   ElementRef,
-  Renderer2,
-  OnInit,
-  OnDestroy,
   inject,
+  OnDestroy,
+  OnInit,
+  Renderer2,
   ViewContainerRef,
-  ComponentRef,
 } from '@angular/core';
 import { NgIconComponent } from '@ng-icons/core';
 import { Tokens } from '@styles';
@@ -15,7 +15,7 @@ import { Tokens } from '@styles';
   selector: 'input[type=search][sekSearchInput]',
   standalone: true,
 })
-export class SearchInputDirective implements OnInit, OnDestroy {
+export class SekSearchInputDirective implements OnInit, OnDestroy {
   private readonly _elementRef = inject(ElementRef);
   private readonly _renderer = inject(Renderer2);
   private readonly _viewContainerRef = inject(ViewContainerRef);
@@ -48,31 +48,29 @@ export class SearchInputDirective implements OnInit, OnDestroy {
 
     this._searchIconRef = this._viewContainerRef.createComponent(NgIconComponent);
     this._searchIconRef.setInput('name', 'heroMagnifyingGlass');
-    this._searchIconRef.setInput('size', '18');
-    this._searchIconRef.setInput('color', Tokens.colorIconSubtle);
 
     this._renderer.appendChild(iconContainer, this._searchIconRef.location.nativeElement);
   }
 
   private _styleHostInput(): void {
-    const input = this._elementRef.nativeElement;
-    this._renderer.setStyle(input, 'border', `${Tokens.size1Px} solid ${Tokens.colorBorder}`);
-    this._renderer.setStyle(input, 'padding-left', '38px');
-    this._renderer.setStyle(input, 'padding-right', Tokens.spacing12Px);
-    this._renderer.setStyle(input, 'border-radius', Tokens.borderRadiusM);
-    this._renderer.setStyle(input, 'line-height', Tokens.lineHeightM);
-    this._renderer.setStyle(input, 'min-height', Tokens.size36Px);
-    this._renderer.setStyle(input, 'background-color', Tokens.colorBackgroundSecondary);
+    const host = this._elementRef.nativeElement;
+    this._renderer.setStyle(host, 'border', `${Tokens.size1Px} solid ${Tokens.colorBorder}`);
+    this._renderer.setStyle(host, 'padding-left', '38px');
+    this._renderer.setStyle(host, 'padding-right', Tokens.spacing12Px);
+    this._renderer.setStyle(host, 'border-radius', Tokens.borderRadiusM);
+    this._renderer.setStyle(host, 'line-height', Tokens.lineHeightM);
+    this._renderer.setStyle(host, 'min-height', Tokens.size36Px);
+    this._renderer.setStyle(host, 'background-color', Tokens.colorBackgroundSecondary);
   }
 
   private _wrapHostInput(): void {
-    const input = this._elementRef.nativeElement;
+    const host = this._elementRef.nativeElement;
     this._wrapper = this._renderer.createElement('div');
 
     this._renderer.setStyle(this._wrapper, 'position', 'relative');
 
-    const hostInput = this._renderer.parentNode(input);
-    this._renderer.insertBefore(hostInput, this._wrapper, input);
-    this._renderer.appendChild(this._wrapper, input);
+    const parentNode = this._renderer.parentNode(host);
+    this._renderer.insertBefore(parentNode, this._wrapper, host);
+    this._renderer.appendChild(this._wrapper, host);
   }
 }
