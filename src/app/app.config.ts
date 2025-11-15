@@ -9,7 +9,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { httpErrorInterceptor } from '@interceptors';
 import { provideIcons, provideNgIconsConfig, withExceptionLogger } from '@ng-icons/core';
-import { heroMagnifyingGlass, heroPlus } from '@ng-icons/heroicons/outline';
+import { heroArrowUturnLeft, heroMagnifyingGlass, heroPlus } from '@ng-icons/heroicons/outline';
 import { Tokens } from '@styles';
 import { routes } from './app.routes';
 
@@ -27,6 +27,6 @@ export const appConfig: ApplicationConfig = {
       },
       withExceptionLogger(),
     ),
-    provideIcons({ heroMagnifyingGlass, heroPlus }),
+    provideIcons({ heroMagnifyingGlass, heroPlus, heroArrowUturnLeft }),
   ],
 };

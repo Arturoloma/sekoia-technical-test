@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { SpinnerComponent } from '@components';
-import { SekButtonDirective, SekSearchInputDirective } from '@directives';
+import { SekButtonDirective, SekInputDirective } from '@directives';
 import { JokeType } from '@models';
 import { NgIcon } from '@ng-icons/core';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
@@ -22,7 +22,7 @@ import { jokesStore } from '../../store/jokes.store';
     ReactiveFormsModule,
     RouterLink,
     SekButtonDirective,
-    SekSearchInputDirective,
+    SekInputDirective,
     SpinnerComponent,
   ],
 })

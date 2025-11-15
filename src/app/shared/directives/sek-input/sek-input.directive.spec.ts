@@ -1,34 +1,34 @@
 import { Component, DebugElement, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { SekSearchInputDirective } from './sek-search-input.directive';
 import { NgIconComponent } from '@ng-icons/core';
 import { Tokens } from '@styles';
+import { SekInputDirective } from './sek-input.directive';
 
 @Component({
   selector: 'sek-search-input-directive-test',
   standalone: true,
-  imports: [SekSearchInputDirective],
-  template: `<input type="search" sekSearchInput />`,
+  imports: [SekInputDirective],
+  template: `<input type="search" sekInput />`,
 })
-class SekSearchInputDirectiveTestComponent {}
+class SekInputDirectiveTestComponent {}
 
-describe('SekSearchInputDirective', () => {
-  let fixture: ComponentFixture<SekSearchInputDirectiveTestComponent>;
+describe('SekInputDirective', () => {
+  let fixture: ComponentFixture<SekInputDirectiveTestComponent>;
   let hostInput: HTMLInputElement;
   let inputDebugElement: DebugElement;
-  let directive: SekSearchInputDirective;
+  let directive: SekInputDirective;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SekSearchInputDirectiveTestComponent, SekSearchInputDirective, NgIconComponent],
+      imports: [SekInputDirectiveTestComponent, SekInputDirective, NgIconComponent],
       providers: [ViewContainerRef],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SekSearchInputDirectiveTestComponent);
-    inputDebugElement = fixture.debugElement.query(By.directive(SekSearchInputDirective));
+    fixture = TestBed.createComponent(SekInputDirectiveTestComponent);
+    inputDebugElement = fixture.debugElement.query(By.directive(SekInputDirective));
     hostInput = inputDebugElement.nativeElement as HTMLInputElement;
-    directive = inputDebugElement.injector.get(SekSearchInputDirective);
+    directive = inputDebugElement.injector.get(SekInputDirective);
 
     fixture.detectChanges();
   });
@@ -40,11 +40,6 @@ describe('SekSearchInputDirective', () => {
   describe('Directive Initialization', () => {
     it('should load', () => {
       expect(directive).toBeTruthy();
-    });
-
-    it('should only apply to search input elements', () => {
-      const selector = 'input[type=search][sekSearchInput]';
-      expect(hostInput.matches(selector)).toBe(true);
     });
   });
 

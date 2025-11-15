@@ -1,37 +1,33 @@
 @let jokeType = jokeForm.get('type')?.value ?? JokeType.SINGLE;
 
-<article class="joke-submit">
-  <header>
-    <h2 class="title">Submit a Joke!</h2>
+<form class="joke-submit-container" [formGroup]="jokeForm">
+  <header class="title">
+    <button sekButton class="title__back-button" routerLink="/jokes/list">
+      <ng-icon [name]="'hero-arrow-uturn-left'"></ng-icon>
+      Browse Jokes
+    </button>
+    <h2 class="title__heading">Submit a Joke!</h2>
   </header>
-  <div
-    role="listbox"
-    aria-orientation="horizontal"
-    tabindex="0"
-    id="jokeType"
-    aria-label="Joke type"
-    aria-activedescendant="jokeTypeSingle"
-    class="joke-type-select"
-  >
-    <button
-      id="jokeTypeSingle"
-      role="option"
-      [attr.aria-selected]="jokeType === JokeType.SINGLE"
-      sekButton
-      [active]="jokeType === JokeType.SINGLE"
-      (click)="selectJokeType(JokeType.SINGLE)"
-    >
-      Single
-    </button>
-    <button
-      id="jokeTypeTwopart"
-      role="option"
-      [attr.aria-selected]="jokeType === JokeType.TWO_PART"
-      sekButton
-      [active]="jokeType === JokeType.TWO_PART"
-      (click)="selectJokeType(JokeType.TWO_PART)"
-    >
-      Two-part
-    </button>
-  </div>
-</article>
+  <sek-buttons-option-list
+    class="joke-type-options"
+    formControlName="type"
+    [label]="'Joke type'"
+    [options]="jokeTypeOptions"
+  ></sek-buttons-option-list>
+  @if (jokeType === JokeType.SINGLE) {
+    <div class="labeled-input">
+      <label for="jokeInput">Joke</label>
+      <input id="jokeInput" type="text" sekInput formControlName="joke" />
+    </div>
+  } @else {
+    <div class="labeled-input">
+      <label for="setupInput">Setup</label>
+      <input id="setupInput" type="text" sekInput formControlName="setup" />
+    </div>
+    <div class="labeled-input">
+      <label for="deliveryInput">Delivery</label>
+      <input id="deliveryInput" type="text" sekInput formControlName="delivery" />
+    </div>
+  }
+  <button type="submit" sekButton class="submit-button" [active]="true">Submit</button>
+</form>

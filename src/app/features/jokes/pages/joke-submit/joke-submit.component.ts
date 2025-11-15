@@ -1,7 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { SekButtonDirective } from '@directives';
-import { JokeCategory, JokeFlags, JokeLanguage, JokeType } from '@models';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { ButtonsOptionListComponent } from '@components';
+import { SekButtonDirective, SekInputDirective } from '@directives';
+import { ButtonOption, JokeCategory, JokeFlags, JokeLanguage, JokeType } from '@models';
+import { NgIcon } from '@ng-icons/core';
 
 @Component({
   selector: 'sek-joke-submit',
@@ -9,7 +12,14 @@ import { JokeCategory, JokeFlags, JokeLanguage, JokeType } from '@models';
   styleUrls: ['./joke-submit.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SekButtonDirective],
+  imports: [
+    ButtonsOptionListComponent,
+    NgIcon,
+    ReactiveFormsModule,
+    RouterLink,
+    SekButtonDirective,
+    SekInputDirective,
+  ],
 })
 export class JokeSubmitComponent {
   public readonly jokeForm = new FormGroup({
@@ -32,6 +42,17 @@ export class JokeSubmitComponent {
     setup: new FormControl<string | undefined>(undefined, { nonNullable: true }),
     type: new FormControl<JokeType>(JokeType.SINGLE, { nonNullable: true }),
   });
+
+  public readonly jokeTypeOptions: [ButtonOption, ...ButtonOption[]] = [
+    {
+      label: 'Single',
+      value: JokeType.SINGLE,
+    },
+    {
+      label: 'Two-part',
+      value: JokeType.TWO_PART,
+    },
+  ];
 
   public readonly JokeType = JokeType;
 

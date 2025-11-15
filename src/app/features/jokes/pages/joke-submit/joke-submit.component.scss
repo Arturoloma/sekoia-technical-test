@@ -1,21 +1,50 @@
 @use 'tokens' as *;
+@use 'mixins' as *;
 
-.joke-submit {
+.joke-submit-container {
+  margin-top: $spacing-16-px;
   display: flex;
   flex-direction: column;
+  align-items: start;
   gap: $spacing-16-px;
 }
 
-.joke-type-select {
-  display: flex;
-  gap: $spacing-8-px;
+.joke-type-options {
   align-self: center;
+}
 
-  & button {
-    min-width: $size-64-px !important;
+.labeled-input {
+  align-self: stretch;
+
+  label {
+    @include sek-text-caption-m;
+  }
+
+  input {
+    margin-top: $spacing-4-px;
+    width: 100%;
   }
 }
 
+.submit-button {
+  align-self: flex-end;
+}
+
 .title {
-  margin: 0;
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  &__back-button {
+    position: absolute;
+
+    ng-icon {
+      margin-right: $spacing-8-px;
+    }
+  }
+
+  &__heading {
+    margin-block: 0;
+    margin-inline: auto;
+  }
 }

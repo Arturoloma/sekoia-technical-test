@@ -1,0 +1,11 @@
+@use 'tokens' as *;
+
+.buttons-option-list {
+  display: flex;
+  gap: $spacing-8-px;
+  align-self: center;
+
+  & button {
+    min-width: $size-64-px !important;
+  }
+}

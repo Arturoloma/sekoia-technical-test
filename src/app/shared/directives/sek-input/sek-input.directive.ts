@@ -12,21 +12,26 @@ import { NgIconComponent } from '@ng-icons/core';
 import { Tokens } from '@styles';
 
 @Directive({
-  selector: 'input[type=search][sekSearchInput]',
+  selector: 'input[type=search][sekInput], input[type=text][sekInput]',
   standalone: true,
 })
-export class SekSearchInputDirective implements OnInit, OnDestroy {
+export class SekInputDirective implements OnInit, OnDestroy {
   private readonly _elementRef = inject(ElementRef);
   private readonly _renderer = inject(Renderer2);
   private readonly _viewContainerRef = inject(ViewContainerRef);
+
+  private readonly _inputType: 'text' | 'search' = this._elementRef.nativeElement.type;
 
   private _wrapper!: HTMLElement;
   private _searchIconRef!: ComponentRef<NgIconComponent>;
 
   public ngOnInit(): void {
+    console.log('input type', this._inputType);
     this._wrapHostInput();
     this._styleHostInput();
-    this._createSearchIcon();
+    if (this._inputType === 'search') {
+      this._createSearchIcon();
+    }
   }
 
   public ngOnDestroy(): void {
@@ -55,7 +60,11 @@ export class SekSearchInputDirective implements OnInit, OnDestroy {
   private _styleHostInput(): void {
     const host = this._elementRef.nativeElement;
     this._renderer.setStyle(host, 'border', `${Tokens.size1Px} solid ${Tokens.colorBorder}`);
-    this._renderer.setStyle(host, 'padding-left', '38px');
+    this._renderer.setStyle(
+      host,
+      'padding-left',
+      this._inputType === 'search' ? '38px' : Tokens.spacing12Px,
+    );
     this._renderer.setStyle(host, 'padding-right', Tokens.spacing12Px);
     this._renderer.setStyle(host, 'border-radius', Tokens.borderRadiusM);
     this._renderer.setStyle(host, 'line-height', Tokens.lineHeightM);
