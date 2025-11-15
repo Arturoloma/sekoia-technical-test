@@ -1,6 +1,14 @@
 @use 'tokens' as *;
 
-.jokes-container {
-  background-color: $color-background-secondary;
-  padding: $spacing-8-px;
+.wiki-jokes {
+  background-color: $color-background;
+  max-width: $container-max-width;
+  padding: $spacing-24-px;
+  margin-inline: auto;
+}
+
+.title {
+  margin-top: 0;
+  margin-bottom: $spacing-32-px;
+  margin-inline: auto;
 }

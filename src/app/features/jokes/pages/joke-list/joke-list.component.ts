@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { SpinnerComponent } from '@components';
 import { SekButtonDirective, SekSearchInputDirective } from '@directives';
 import { JokeType } from '@models';
@@ -19,6 +20,7 @@ import { jokesStore } from '../../store/jokes.store';
     NgIcon,
     JokeComponent,
     ReactiveFormsModule,
+    RouterLink,
     SekButtonDirective,
     SekSearchInputDirective,
     SpinnerComponent,

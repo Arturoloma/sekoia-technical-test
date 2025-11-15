@@ -11,6 +11,7 @@ body {
   margin: 0;
   color: $color-text;
   background: $color-background-secondary;
+  padding: $spacing-8-px;
 }
 
 :where(h1) {

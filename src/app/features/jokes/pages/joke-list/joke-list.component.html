@@ -1,6 +1,4 @@
 <article class="joke-list">
-  <h1 class="title">WikiJokes</h1>
-
   <div class="search-container">
     <form class="search-form" [formGroup]="searchJokesForm">
       <input
@@ -11,9 +9,16 @@
         formControlName="search"
       />
     </form>
-    <button sekButton class="go-to-joke-submit">
-      <ng-icon [name]="'hero-plus'" [size]="'18'" [color]="'black'"></ng-icon>
-    </button>
+    <nav>
+      <button
+        sekButton
+        class="go-to-joke-submit"
+        aria-label="Go to Submit Joke page"
+        routerLink="/jokes/submit"
+      >
+        <ng-icon [name]="'hero-plus'" [size]="'18'" [color]="'black'"></ng-icon>
+      </button>
+    </nav>
   </div>
 
   <section>
