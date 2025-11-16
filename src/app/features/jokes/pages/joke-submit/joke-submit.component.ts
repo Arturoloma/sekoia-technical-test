@@ -3,8 +3,9 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ButtonsOptionListComponent } from '@components';
 import { SekButtonDirective, SekInputDirective } from '@directives';
-import { ButtonOption, JokeCategory, JokeFlags, JokeLanguage, JokeType } from '@models';
+import { ButtonOption, JokeCategory, JokeFlag, JokeLanguage, JokeType } from '@models';
 import { NgIcon } from '@ng-icons/core';
+import { firstCharToLocaleUpperCase } from '@utils';
 
 @Component({
   selector: 'sek-joke-submit',
@@ -25,25 +26,15 @@ export class JokeSubmitComponent {
   public readonly jokeForm = new FormGroup({
     category: new FormControl<JokeCategory>(JokeCategory.ANY, { nonNullable: true }),
     delivery: new FormControl<string | undefined>(undefined, { nonNullable: true }),
-    flags: new FormControl<JokeFlags>(
-      {
-        explicit: false,
-        nsfw: false,
-        political: false,
-        racist: false,
-        religious: false,
-        sexist: false,
-      },
-      { nonNullable: true },
-    ),
+    flags: new FormControl<JokeFlag[]>([], { nonNullable: true }),
     joke: new FormControl<string | undefined>(undefined, { nonNullable: true }),
     lang: new FormControl<JokeLanguage>(JokeLanguage.ENGLISH, { nonNullable: true }),
     safe: new FormControl<boolean>(false, { nonNullable: true }),
     setup: new FormControl<string | undefined>(undefined, { nonNullable: true }),
-    type: new FormControl<JokeType>(JokeType.SINGLE, { nonNullable: true }),
+    type: new FormControl<JokeType[]>([JokeType.SINGLE], { nonNullable: true }),
   });
 
-  public readonly jokeTypeOptions: [ButtonOption, ...ButtonOption[]] = [
+  public readonly jokeTypeOptions: ButtonOption[] = [
     {
       label: 'Single',
       value: JokeType.SINGLE,
@@ -54,11 +45,10 @@ export class JokeSubmitComponent {
     },
   ];
 
-  public readonly JokeType = JokeType;
+  public readonly flagOptions: ButtonOption[] = Object.values(JokeFlag).map((flag: string) => ({
+    label: firstCharToLocaleUpperCase(flag),
+    value: flag,
+  }));
 
-  public selectJokeType(type: JokeType): void {
-    this.jokeForm.patchValue({
-      type,
-    });
-  }
+  public readonly JokeType = JokeType;
 }

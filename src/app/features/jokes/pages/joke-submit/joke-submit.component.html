@@ -1,4 +1,4 @@
-@let jokeType = jokeForm.get('type')?.value ?? JokeType.SINGLE;
+@let jokeType = jokeForm.get('type')?.value?.[0] ?? JokeType.SINGLE;
 
 <form class="joke-submit-container" [formGroup]="jokeForm">
   <header class="title">
@@ -8,12 +8,15 @@
     </button>
     <h2 class="title__heading">Submit a Joke!</h2>
   </header>
+
   <sek-buttons-option-list
     class="joke-type-options"
     formControlName="type"
+    [allowVoidSelection]="false"
     [label]="'Joke type'"
     [options]="jokeTypeOptions"
   ></sek-buttons-option-list>
+
   @if (jokeType === JokeType.SINGLE) {
     <div class="labeled-input">
       <label for="jokeInput">Joke</label>
@@ -29,5 +32,14 @@
       <input id="deliveryInput" type="text" sekInput formControlName="delivery" />
     </div>
   }
+
+  <sek-buttons-option-list
+    class="joke-type-options"
+    formControlName="flags"
+    [label]="'Flags'"
+    [multiSelectable]="true"
+    [options]="flagOptions"
+  ></sek-buttons-option-list>
+
   <button type="submit" sekButton class="submit-button" [active]="true">Submit</button>
 </form>

@@ -19,16 +19,27 @@ import { ButtonOption } from '@models';
   ],
 })
 export class ButtonsOptionListComponent implements ControlValueAccessor {
+  public allowVoidSelection = input<boolean>(true);
   public label = input.required<string>();
-  public options = input.required<[ButtonOption, ...ButtonOption[]]>();
+  public multiSelectable = input<boolean>(false);
+  public options = input.required<ButtonOption[], ButtonOption[]>({
+    transform: (value: ButtonOption[]) => {
+      if (value.length < 1) {
+        throw new Error('ButtonsOptionListComponent requires at least 1 option in options array');
+      }
+      return value;
+    },
+  });
 
-  private _selectedOption?: string;
-  public get selectedOption(): string | undefined {
-    return this._selectedOption;
+  public activeDescendant?: string;
+
+  private _selectedOptions?: string[];
+  public get selectedOptions(): string[] | undefined {
+    return this._selectedOptions;
   }
-  public set selectedOption(option: string) {
-    this._selectedOption = option;
-    this._onChange(option);
+  public set selectedOptions(options: string[]) {
+    this._selectedOptions = options;
+    this._onChange(options);
     this._onTouched();
   }
 
@@ -41,8 +52,12 @@ export class ButtonsOptionListComponent implements ControlValueAccessor {
     /* empty */
   };
 
-  public writeValue(value: string): void {
-    this._selectedOption = value;
+  public isOptionSelected(optionValue: string): boolean {
+    if (!this.selectedOptions) {
+      return false;
+    }
+
+    return this.selectedOptions.some((option: string) => optionValue === option);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -55,7 +70,29 @@ export class ButtonsOptionListComponent implements ControlValueAccessor {
     this._onTouched = fn;
   }
 
-  public selectOption(optionValue: string): void {
-    this.selectedOption = optionValue;
+  public toggleOption(optionValue: string): void {
+    let selectedOptionsArr: string[] = [...(this.selectedOptions ?? [])];
+
+    this.activeDescendant = optionValue;
+
+    if (this.isOptionSelected(optionValue)) {
+      if (selectedOptionsArr.length > 1 || this.allowVoidSelection()) {
+        selectedOptionsArr = selectedOptionsArr.filter(
+          (selectedOptionValue: string) => selectedOptionValue !== optionValue,
+        );
+      }
+    } else {
+      if (!this.multiSelectable()) {
+        selectedOptionsArr = [optionValue];
+      } else {
+        selectedOptionsArr.push(optionValue);
+      }
+    }
+
+    this.selectedOptions = [...new Set(selectedOptionsArr)];
+  }
+
+  public writeValue(value: string[]): void {
+    this._selectedOptions = value;
   }
 }

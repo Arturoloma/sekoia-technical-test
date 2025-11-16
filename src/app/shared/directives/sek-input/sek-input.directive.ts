@@ -26,7 +26,6 @@ export class SekInputDirective implements OnInit, OnDestroy {
   private _searchIconRef!: ComponentRef<NgIconComponent>;
 
   public ngOnInit(): void {
-    console.log('input type', this._inputType);
     this._wrapHostInput();
     this._styleHostInput();
     if (this._inputType === 'search') {

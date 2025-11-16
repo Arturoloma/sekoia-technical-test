@@ -2,17 +2,18 @@
   role="listbox"
   aria-orientation="horizontal"
   [attr.aria-label]="label()"
-  [attr.aria-activedescendant]="selectedOption"
+  [attr.aria-activedescendant]="activeDescendant ?? options()[0].value"
+  [attr.aria-multiselectable]="multiSelectable()"
   class="buttons-option-list"
 >
   @for (option of options(); track option.value) {
     <button
       [attr.id]="option.value"
       role="option"
-      [attr.aria-selected]="selectedOption === option.value"
+      [attr.aria-selected]="isOptionSelected(option.value)"
       sekButton
-      [active]="selectedOption === option.value"
-      (click)="selectOption(option.value)"
+      [active]="isOptionSelected(option.value)"
+      (click)="toggleOption(option.value)"
     >
       {{ option.label }}
     </button>
