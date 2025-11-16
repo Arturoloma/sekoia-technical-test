@@ -111,6 +111,13 @@ export const jokesStore = signalStore(
         }),
       ),
     ),
+    resetSubmitJokeState: (): void => {
+      patchState(store, {
+        isJokeSubmitLoading: initialState.isJokeSubmitLoading,
+        submitJokeError: initialState.submitJokeError,
+        submitJokeSuccess: initialState.submitJokeSuccess,
+      });
+    },
     updateFilters: (filters: Partial<GetJokesParameters>): void => {
       patchState(store, {
         filters: {

@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -32,7 +39,7 @@ import { jokesStore } from '../../store/jokes.store';
     SpinnerComponent,
   ],
 })
-export class JokeSubmitComponent implements OnInit {
+export class JokeSubmitComponent implements OnInit, OnDestroy {
   public readonly jokeForm = new FormGroup({
     category: new FormControl<JokeCategory>(JokeCategory.ANY, { nonNullable: true }),
     delivery: new FormControl<string | undefined>(undefined, { nonNullable: true }),
@@ -78,6 +85,10 @@ export class JokeSubmitComponent implements OnInit {
 
   public ngOnInit(): void {
     this._setDynamicValidation();
+  }
+
+  public ngOnDestroy(): void {
+    this.store.resetSubmitJokeState();
   }
 
   public onSubmit(): void {
