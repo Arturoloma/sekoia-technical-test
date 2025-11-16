@@ -1,17 +1,17 @@
+import { provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideZonelessChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideHttpClient } from '@angular/common/http';
-import { JokeApiService } from './joke-api.service';
-import { JokeCategory, JokeFlag, JokeLanguage, JokeType } from '@models';
 import {
-  mockErrorResponse,
-  mockSingleJokeResponse,
-  mockSafeFlags,
   createMockMultipleResponse,
+  mockErrorResponse,
+  mockSafeFlags,
   mockSingleJoke,
+  mockSingleJokeResponse,
   mockTwoPartJoke,
 } from '@mocks';
+import { JokeCategory, JokeFlag, JokeLanguage, JokeType } from '@models';
+import { JokeApiService } from './joke-api.service';
 
 describe('JokeApiService', () => {
   let service: JokeApiService;
@@ -199,7 +199,7 @@ describe('JokeApiService', () => {
     it('should handle multiple parameters together', () => {
       service
         .getJokes({
-          category: JokeCategory.PROGRAMING,
+          category: JokeCategory.PROGRAMMING,
           amount: 15,
           contains: 'bug',
           type: JokeType.SINGLE,

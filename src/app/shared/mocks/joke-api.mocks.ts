@@ -1,12 +1,12 @@
 import {
   Joke,
   JokeCategory,
+  JokeErrorResponse,
   JokeFlag,
   JokeLanguage,
   JokeType,
   MultipleJokesResponse,
   SingleJokeResponse,
-  JokeErrorResponse,
 } from '@models';
 
 export const mockSafeFlags = {
@@ -29,7 +29,7 @@ export const mockPoliticalFlags = {
 };
 
 export const mockSingleJoke: Joke = {
-  category: JokeCategory.PROGRAMING,
+  category: JokeCategory.PROGRAMMING,
   type: JokeType.SINGLE,
   joke: 'Why do programmers prefer dark mode? Because light attracts bugs!',
   flags: mockSafeFlags,

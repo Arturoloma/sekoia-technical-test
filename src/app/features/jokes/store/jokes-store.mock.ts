@@ -1,22 +1,23 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/no-empty-function */
-
 import { Provider, signal } from '@angular/core';
-import { JokesState } from './jokes.store.model';
 import { initialState, jokesStore } from './jokes.store';
+import { JokesState } from './jokes.store.model';
 
 export function provideMockJokesStore(initialStateOverride?: Partial<JokesState>): Provider {
   const mockState = { ...initialState, ...initialStateOverride };
 
   const mockStore = {
     jokes: signal(mockState.jokes),
-    isLoading: signal(mockState.isLoading),
-    error: signal(mockState.error),
+    isJokeListLoading: signal(mockState.isJokeListLoading),
+    isJokeSubmitLoading: signal(mockState.isJokeSubmitLoading),
+    getJokesError: signal(mockState.getJokesError),
+    submitJokeError: signal(mockState.submitJokeError),
+    submitJokeSuccess: signal(mockState.submitJokeSuccess),
     filters: signal(mockState.filters),
-    pagination: signal(mockState.pagination),
 
-    getJokes: () => {},
-    updateFilters: () => {},
+    getJokes: jest.fn(),
+    submitJoke: jest.fn(),
+    resetSubmitJokeState: jest.fn(),
+    updateFilters: jest.fn(),
   };
 
   return {

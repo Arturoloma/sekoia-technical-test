@@ -3,7 +3,7 @@ export enum JokeCategory {
   CHRISTMAS = 'Christmas',
   DARK = 'Dark',
   MISC = 'Misc',
-  PROGRAMING = 'Programming',
+  PROGRAMMING = 'Programming',
   PUN = 'Pun',
   SPOOKY = 'Spooky',
 }
