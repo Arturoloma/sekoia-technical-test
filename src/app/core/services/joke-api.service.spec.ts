@@ -3,14 +3,13 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { provideZonelessChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
-  createMockMultipleResponse,
   mockErrorResponse,
+  mockMultipleJokesResponse,
   mockSafeFlags,
-  mockSingleJoke,
   mockSingleJokeResponse,
-  mockTwoPartJoke,
+  mockSubmitParams,
 } from '@mocks';
-import { JokeCategory, JokeFlag, JokeLanguage, JokeType } from '@models';
+import { JokeCategory, JokeFlag, JokeLanguage, JokeType, SubmitJokeParameters } from '@models';
 import { JokeApiService } from './joke-api.service';
 
 describe('JokeApiService', () => {
@@ -239,10 +238,8 @@ describe('JokeApiService', () => {
     });
 
     it('should return MultipleJokesResponse when 2+ jokes are returned', () => {
-      const customResponse = createMockMultipleResponse([mockSingleJoke, mockTwoPartJoke]);
-
       service.getJokes({ amount: 2 }).subscribe((response) => {
-        expect(response).toEqual(customResponse);
+        expect(response).toEqual(mockMultipleJokesResponse);
         if ('jokes' in response) {
           expect(response.jokes.length).toBe(2);
           expect(response.amount).toBe(2);
@@ -250,7 +247,7 @@ describe('JokeApiService', () => {
       });
 
       const req = httpTestingController.expectOne(`${apiUrl}/joke/Any?amount=2`);
-      req.flush(customResponse);
+      req.flush(mockMultipleJokesResponse);
     });
 
     it('should handle 404 errors', () => {
@@ -276,6 +273,90 @@ describe('JokeApiService', () => {
       });
 
       const req = httpTestingController.expectOne((request) => request.url.includes('/joke/Any'));
+      req.flush(null, { status: 500, statusText: 'Internal Server Error' });
+    });
+  });
+
+  describe('submitJoke', () => {
+    it('should make POST request to /submit endpoint', () => {
+      service.submitJoke(mockSubmitParams).subscribe((response) => {
+        expect(response).toEqual(mockSingleJokeResponse);
+      });
+
+      const req = httpTestingController.expectOne((request) => {
+        return request.url === `${apiUrl}/submit` && request.params.has('dry-run');
+      });
+
+      expect(req.request.method).toBe('POST');
+      expect(req.request.params.get('dry-run')).toBe('');
+      expect(req.request.body).toEqual(mockSubmitParams);
+      req.flush(mockSingleJokeResponse);
+    });
+
+    it('should submit single joke with correct body', () => {
+      service.submitJoke(mockSubmitParams).subscribe();
+
+      const req = httpTestingController.expectOne(`${apiUrl}/submit?dry-run=`);
+      expect(req.request.body.type).toBe(JokeType.SINGLE);
+      expect(req.request.body.joke).toBe('Why do programmers prefer dark mode?');
+      expect(req.request.body.category).toBe(JokeCategory.PROGRAMMING);
+      req.flush(mockSingleJokeResponse);
+    });
+
+    it('should submit two-part joke with setup and delivery', () => {
+      const twoPartParams: SubmitJokeParameters = {
+        formatVersion: 3,
+        category: JokeCategory.DARK,
+        type: JokeType.TWO_PART,
+        setup: 'Why did the chicken cross the road?',
+        delivery: 'To get to the other side!',
+        flags: mockSafeFlags,
+        lang: JokeLanguage.ENGLISH,
+        safe: false,
+      };
+
+      service.submitJoke(twoPartParams).subscribe();
+
+      const req = httpTestingController.expectOne(`${apiUrl}/submit?dry-run=`);
+      expect(req.request.body.type).toBe(JokeType.TWO_PART);
+      expect(req.request.body.setup).toBe('Why did the chicken cross the road?');
+      expect(req.request.body.delivery).toBe('To get to the other side!');
+      req.flush(mockSingleJokeResponse);
+    });
+
+    it('should always include dry-run parameter', () => {
+      service.submitJoke(mockSubmitParams).subscribe();
+
+      const req = httpTestingController.expectOne((request) => {
+        return request.url.includes('/submit') && request.params.has('dry-run');
+      });
+
+      expect(req.request.params.get('dry-run')).toBe('');
+      req.flush(mockSingleJokeResponse);
+    });
+
+    it('should handle 400 validation errors', () => {
+      service.submitJoke(mockSubmitParams).subscribe({
+        next: () => fail('Should have failed with 400 error'),
+        error: (error) => {
+          expect(error.status).toBe(400);
+          expect(error.statusText).toBe('Bad Request');
+        },
+      });
+
+      const req = httpTestingController.expectOne(`${apiUrl}/submit?dry-run=`);
+      req.flush(mockErrorResponse, { status: 400, statusText: 'Bad Request' });
+    });
+
+    it('should handle 500 server errors', () => {
+      service.submitJoke(mockSubmitParams).subscribe({
+        next: () => fail('Should have failed with 500 error'),
+        error: (error) => {
+          expect(error.status).toBe(500);
+        },
+      });
+
+      const req = httpTestingController.expectOne(`${apiUrl}/submit?dry-run=`);
       req.flush(null, { status: 500, statusText: 'Internal Server Error' });
     });
   });

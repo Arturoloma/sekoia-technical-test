@@ -17,7 +17,6 @@ describe('JokeComponent', () => {
     fixture = TestBed.createComponent(JokeComponent);
     component = fixture.componentInstance;
 
-    // Set the required input BEFORE calling autoDetectChanges
     fixture.componentRef.setInput('joke', mockSingleJoke);
     fixture.autoDetectChanges();
   });

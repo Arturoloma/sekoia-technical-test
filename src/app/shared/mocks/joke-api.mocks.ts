@@ -7,6 +7,7 @@ import {
   JokeType,
   MultipleJokesResponse,
   SingleJokeResponse,
+  SubmitJokeParameters,
 } from '@models';
 
 export const mockSafeFlags = {
@@ -80,6 +81,16 @@ export const mockErrorResponse: JokeErrorResponse = {
   message: 'No matching joke found',
   causedBy: ['No jokes found matching your criteria'],
   additionalInfo: 'Try adjusting your filters',
+};
+
+export const mockSubmitParams: SubmitJokeParameters = {
+  formatVersion: 3,
+  category: JokeCategory.PROGRAMMING,
+  type: JokeType.SINGLE,
+  joke: 'Why do programmers prefer dark mode?',
+  flags: mockSafeFlags,
+  lang: JokeLanguage.ENGLISH,
+  safe: true,
 };
 
 export function createMockJoke(overrides: Partial<Joke> = {}): Joke {
