@@ -20,12 +20,13 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 ## Installation
 
 1. Clone the repository
-2. Install dependencies: npm install
+2. Install dependencies: `npm install`
 
 ## Development
 
-- Start the development server (SSR): `npm start`
-- Start the development server (CSR): `npm run dev`
+Start the development server:
+- SSR: `npm start`
+- CSR: `npm run dev`
 
 The application will be available at http://localhost:4200
 
@@ -51,14 +52,16 @@ The application will be available at http://localhost:4200
 
 ## Project Structure
 
+```
 src/
 ├── app/
-│ ├── core/ # Services, interceptors, guards
-│ ├── features/ # Feature modules (jokes, submit)
-│ ├── shared/ # Shared components, directives
-│ └── models/ # TypeScript interfaces
-├── styles/ # Global styles and design tokens
-└── locale/ # i18n translation files
+│   ├── core/           # Services, interceptors, guards
+│   ├── features/       # Feature modules (jokes, submit)
+│   ├── shared/         # Shared components, directives
+│   └── models/         # TypeScript interfaces
+├── styles/             # Global styles and design tokens
+└── locale/             # i18n translation files
+```
 
 ## Key Technologies
 
