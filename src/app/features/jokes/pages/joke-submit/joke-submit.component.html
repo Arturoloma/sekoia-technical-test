@@ -17,7 +17,7 @@
     <sek-spinner class="loader"></sek-spinner>
   } @else {
     <sek-buttons-option-list
-      class="joke-type-options"
+      class="button-options"
       formControlName="type"
       [allowVoidSelection]="false"
       [label]="'Joke type'"
@@ -41,14 +41,20 @@
     }
 
     <sek-buttons-option-list
-      class="joke-type-options"
+      class="button-options"
       formControlName="flags"
       [label]="'Flags'"
       [multiSelectable]="true"
       [options]="flagOptions"
     ></sek-buttons-option-list>
 
-    <!-- TODO: Language -->
+    <sek-buttons-option-list
+      class="button-options"
+      formControlName="lang"
+      [allowVoidSelection]="false"
+      [label]="'Language'"
+      [options]="langOptions"
+    ></sek-buttons-option-list>
   }
 
   @if (submitJokeError) {

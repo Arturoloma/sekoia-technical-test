@@ -79,10 +79,10 @@ export const jokesStore = signalStore(
         }),
       ),
     ),
-    submitJoke: rxMethod<Partial<SubmitJokeParameters>>(
+    submitJoke: rxMethod<SubmitJokeParameters>(
       pipe(
         tap(() => patchState(store, { isJokeSubmitLoading: true, submitJokeError: null })),
-        switchMap((params: Partial<SubmitJokeParameters>) => {
+        switchMap((params: SubmitJokeParameters) => {
           return jokesApiService.submitJoke(params).pipe(
             tap((response: JokeApiResponse) => {
               if (response.error) {

@@ -19,7 +19,7 @@ export const Tokens = {
   colorText: '#21225f',
   colorTextActive: '#f8f9fc',
   colorTextSubtle: '#6d6e9c',
-  colorTextError: '#aa0000',
+  colorTextError: '#a00',
   containerMaxWidth: '835px',
   containerPadding: '24px',
   size1Px: '1px',

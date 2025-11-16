@@ -41,7 +41,7 @@ export class JokeSubmitComponent implements OnInit {
       nonNullable: true,
       validators: [Validators.required],
     }),
-    lang: new FormControl<JokeLanguage>(JokeLanguage.ENGLISH, { nonNullable: true }),
+    lang: new FormControl<JokeLanguage[]>([JokeLanguage.ENGLISH], { nonNullable: true }),
     safe: new FormControl<boolean>(false, { nonNullable: true }),
     setup: new FormControl<string | undefined>(undefined, { nonNullable: true }),
     type: new FormControl<JokeType[]>([JokeType.SINGLE], { nonNullable: true }),
@@ -60,6 +60,12 @@ export class JokeSubmitComponent implements OnInit {
     label: firstCharToLocaleUpperCase(flag),
     value: flag,
   }));
+  public readonly langOptions: ButtonOption[] = Object.entries(JokeLanguage).map(
+    ([key, value]) => ({
+      label: firstCharToLocaleUpperCase(key.toLocaleLowerCase()),
+      value: value,
+    }),
+  );
   public readonly store = inject(jokesStore);
 
   public readonly JokeType = JokeType;
@@ -76,10 +82,11 @@ export class JokeSubmitComponent implements OnInit {
 
   public onSubmit(): void {
     const selectedFlags: JokeFlag[] = this.jokeForm.get('flags')!.value;
+    const jokeType = this.jokeForm.get('type')!.value[0];
     const params: SubmitJokeParameters = {
       formatVersion: 3,
       category: this.jokeForm.get('category')!.value,
-      delivery: this.jokeForm.get('delivery')?.value,
+      delivery: jokeType === JokeType.TWO_PART ? this.jokeForm.get('delivery')?.value : undefined,
       flags: {
         explicit: !!selectedFlags?.some((flag: string) => flag === JokeFlag.EXPLICIT),
         nsfw: !!selectedFlags?.some((flag: string) => flag === JokeFlag.NSFW),
@@ -88,11 +95,11 @@ export class JokeSubmitComponent implements OnInit {
         religious: !!selectedFlags?.some((flag: string) => flag === JokeFlag.RELIGIOUS),
         sexist: !!selectedFlags?.some((flag: string) => flag === JokeFlag.SEXIST),
       },
-      joke: this.jokeForm.get('joke')?.value,
-      lang: JokeLanguage.ENGLISH,
+      joke: jokeType === JokeType.SINGLE ? this.jokeForm.get('joke')?.value : undefined,
+      lang: this.jokeForm.get('lang')!.value[0],
       safe: false,
-      setup: this.jokeForm.get('setup')?.value,
-      type: this.jokeForm.get('type')!.value[0],
+      setup: jokeType === JokeType.TWO_PART ? this.jokeForm.get('setup')?.value : undefined,
+      type: jokeType,
     };
 
     this.store.submitJoke(params);
