@@ -1,59 +1,85 @@
-# SekoiaTechnicalTest
+# Joke Application - Technical Test
 
+Application for browsing and submitting jokes using the [JokeAPI v2](https://v2.jokeapi.dev).
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.9.
 
-## Development server
+## Features
 
-To start a local development server, run:
+- Browse and search jokes
+- Submit new jokes
+- Accessibility
+- Unit tests with Jest
+- State management with @ngrx/signals
+- ESLint + Prettier + Husky
+- Server-Side Rendering (SSR)
 
-```bash
-ng serve
-```
+## Prerequisites
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- Node.js ^20.19.0 || ^22.12.0 || ^24.0.0
 
-## Code scaffolding
+## Installation
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+1. Clone the repository
+2. Install dependencies: npm install
 
-```bash
-ng generate component component-name
-```
+## Development
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- Start the development server (SSR): `npm start`
+- Start the development server (CSR): `npm run dev`
 
-```bash
-ng generate --help
-```
+The application will be available at http://localhost:4200
 
-## Building
+## Build
 
-To build the project run:
+`npm run build`
 
-```bash
-ng build
-```
+## Testing
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+- Run unit tests: `npm test`
+- Run tests with coverage: `npm run test:coverage`
+- Run tests in watch mode: `npm run test:watch`
+- Clear test cache: `npm run test:clear`
 
-## Running unit tests
+## Linting & Formatting
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+- Lint TypeScript files: `npm run lint`
+- Lint and fix: `npm run lint:fix`
+- Lint styles: `npm run lint:scss`
+- Lint and fix styles: `npm run lint:scss:fix`
+- Format files: `npm run format`
+- Check formatting: `npm run format:check`
 
-```bash
-ng test
-```
+## Project Structure
 
-## Running end-to-end tests
+src/
+├── app/
+│ ├── core/ # Services, interceptors, guards
+│ ├── features/ # Feature modules (jokes, submit)
+│ ├── shared/ # Shared components, directives
+│ └── models/ # TypeScript interfaces
+├── styles/ # Global styles and design tokens
+└── locale/ # i18n translation files
 
-For end-to-end (e2e) testing, run:
+## Key Technologies
 
-```bash
-ng e2e
-```
+- Angular 20 - Latest version with signals
+- @ngrx/signals - State management
+- RxJS - Reactive programming
+- Jest - Unit testing
+- SCSS - Styling with design tokens
+- Husky - Git hooks for quality gates
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## API
 
-## Additional Resources
+Uses [JokeAPI v2](https://v2.jokeapi.dev) for fetching and submitting jokes.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Design
+
+Follows the [Figma design](https://www.figma.com/design/1UX3I3uFU4oP29AOkSQ0MB/Untitled?node-id=0-1&m=dev&t=MVvsUOyUxMdQdjl7-1) specifications with pixel-perfect implementation.
+
+## Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
