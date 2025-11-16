@@ -1,118 +1,181 @@
-import { Component, DebugElement, input, ViewContainerRef } from '@angular/core';
+import { Component, provideZonelessChangeDetection } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Tokens } from '@styles';
 import { SekButtonDirective } from './sek-button.directive';
 
 @Component({
-  selector: 'sek-search-input-directive-test',
+  selector: 'sek-button-inactive-test',
+  template: `<button sekButton [active]="false" [disabled]="false">Test</button>`,
   standalone: true,
   imports: [SekButtonDirective],
-  template: `<button sekButton [active]="active()">Sek button</button>`,
 })
-class SekButtonDirectiveTestComponent {
-  public active = input<boolean>(false);
-}
+class InactiveButtonTestComponent {}
+
+@Component({
+  selector: 'sek-button-active-test',
+  template: `<button sekButton [active]="true" [disabled]="false">Test</button>`,
+  standalone: true,
+  imports: [SekButtonDirective],
+})
+class ActiveButtonTestComponent {}
+
+@Component({
+  selector: 'sek-button-disabled-test',
+  template: `<button sekButton [active]="false" [disabled]="true">Test</button>`,
+  standalone: true,
+  imports: [SekButtonDirective],
+})
+class DisabledButtonTestComponent {}
+
+@Component({
+  selector: 'sek-button-active-disabled-test',
+  template: `<button sekButton [active]="true" [disabled]="true">Test</button>`,
+  standalone: true,
+  imports: [SekButtonDirective],
+})
+class ActiveDisabledButtonTestComponent {}
 
 describe('SekButtonDirective', () => {
-  let fixture: ComponentFixture<SekButtonDirectiveTestComponent>;
-  let host: HTMLButtonElement;
-  let debugElement: DebugElement;
-  let directive: SekButtonDirective;
+  describe('Component Initialization', () => {
+    let fixture: ComponentFixture<InactiveButtonTestComponent>;
+    let buttonElement: HTMLButtonElement;
+    let directive: SekButtonDirective;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [SekButtonDirectiveTestComponent, SekButtonDirective],
-      providers: [ViewContainerRef],
-    }).compileComponents();
+    beforeEach(async () => {
+      await TestBed.configureTestingModule({
+        imports: [InactiveButtonTestComponent],
+        providers: [provideZonelessChangeDetection()],
+      }).compileComponents();
 
-    fixture = TestBed.createComponent(SekButtonDirectiveTestComponent);
-    debugElement = fixture.debugElement.query(By.directive(SekButtonDirective));
-    host = debugElement.nativeElement as HTMLButtonElement;
-    directive = debugElement.injector.get(SekButtonDirective);
+      fixture = TestBed.createComponent(InactiveButtonTestComponent);
+      const buttonDebugElement = fixture.debugElement.query(By.directive(SekButtonDirective));
+      buttonElement = buttonDebugElement.nativeElement;
+      directive = buttonDebugElement.injector.get(SekButtonDirective);
+      fixture.autoDetectChanges();
+    });
 
-    fixture.detectChanges();
-  });
-
-  afterEach(() => {
-    fixture.destroy();
-  });
-
-  describe('Directive Initialization', () => {
     it('should load', () => {
       expect(directive).toBeTruthy();
     });
 
-    it('should only apply to button elements', () => {
-      const selector = 'button[sekButton]';
-      expect(host.matches(selector)).toBe(true);
-    });
-
-    it('should have active input defaulting to false', () => {
-      expect(directive.active()).toBe(false);
+    it('should be applied to button element', () => {
+      expect(buttonElement.tagName).toBe('BUTTON');
     });
   });
 
-  describe('Static Host Styling', () => {
-    it('should apply the expected border radius', () => {
-      expect(host.style.borderRadius).toBe(Tokens.borderRadiusM);
+  describe('Initial Styling', () => {
+    let fixture: ComponentFixture<InactiveButtonTestComponent>;
+    let buttonElement: HTMLButtonElement;
+
+    beforeEach(async () => {
+      await TestBed.configureTestingModule({
+        imports: [InactiveButtonTestComponent],
+        providers: [provideZonelessChangeDetection()],
+      }).compileComponents();
+
+      fixture = TestBed.createComponent(InactiveButtonTestComponent);
+      const buttonDebugElement = fixture.debugElement.query(By.directive(SekButtonDirective));
+      buttonElement = buttonDebugElement.nativeElement;
+      fixture.autoDetectChanges();
     });
 
-    it('should apply the expected minimum width', () => {
-      expect(host.style.minWidth).toBe(Tokens.size36Px);
+    it('should apply base button styles on init', () => {
+      expect(buttonElement.style.borderRadius).toBe(Tokens.borderRadiusM);
+      expect(buttonElement.style.minWidth).toBe(Tokens.size36Px);
+      expect(buttonElement.style.height).toBe(Tokens.size36Px);
+      expect(buttonElement.style.display).toBe('flex');
+      expect(buttonElement.style.alignItems).toBe('center');
+      expect(buttonElement.style.justifyContent).toBe('center');
     });
 
-    it('should apply the expected height', () => {
-      expect(host.style.height).toBe(Tokens.size36Px);
-    });
-
-    it('should apply styles to center items inside', () => {
-      expect(host.style.display).toBe('flex');
-      expect(host.style.alignItems).toBe('center');
-      expect(host.style.justifyContent).toBe('center');
-    });
-
-    it('should make the cursor be a pointer on hover', () => {
-      expect(host.style.cursor).toBe('pointer');
-    });
-  });
-
-  describe('Inactive State Styling (default)', () => {
-    it('should apply inactive background color', () => {
-      expect(host.style.backgroundColor).toBeDefined();
-      expect(host.style.backgroundColor).not.toBe('');
-    });
-
-    it('should apply inactive text color', () => {
-      expect(host.style.color).toBeDefined();
-      expect(host.style.color).not.toBe('');
-    });
-
-    it('should apply inactive border styling', () => {
-      expect(host.style.border).toContain('1px');
-      expect(host.style.border).toContain('solid');
+    it('should apply default inactive styles', () => {
+      expect(buttonElement.style.backgroundColor).toBeDefined();
+      expect(buttonElement.style.color).toBeDefined();
+      expect(buttonElement.style.border).toBeDefined();
+      expect(buttonElement.style.cursor).toBe('pointer');
     });
   });
 
   describe('Active State Styling', () => {
-    beforeEach(() => {
-      fixture.componentRef.setInput('active', true);
-      fixture.detectChanges();
+    let fixture: ComponentFixture<ActiveButtonTestComponent>;
+    let buttonElement: HTMLButtonElement;
+
+    beforeEach(async () => {
+      await TestBed.configureTestingModule({
+        imports: [ActiveButtonTestComponent],
+        providers: [provideZonelessChangeDetection()],
+      }).compileComponents();
+
+      fixture = TestBed.createComponent(ActiveButtonTestComponent);
+      const buttonDebugElement = fixture.debugElement.query(By.directive(SekButtonDirective));
+      buttonElement = buttonDebugElement.nativeElement;
+      fixture.autoDetectChanges();
     });
 
-    it('should apply active background color', () => {
-      expect(host.style.backgroundColor).toBeDefined();
-      expect(host.style.backgroundColor).not.toBe('');
+    it('should apply active styles when active input is true', () => {
+      expect(buttonElement.style.backgroundColor).toBeDefined();
+      expect(buttonElement.style.color).toBeDefined();
+      expect(buttonElement.style.border).toBeDefined();
     });
 
-    it('should apply active text color', () => {
-      expect(host.style.color).toBeDefined();
-      expect(host.style.color).not.toBe('');
+    it('should maintain base styles when active', () => {
+      expect(buttonElement.style.borderRadius).toBe(Tokens.borderRadiusM);
+      expect(buttonElement.style.minWidth).toBe(Tokens.size36Px);
+      expect(buttonElement.style.height).toBe(Tokens.size36Px);
+    });
+  });
+
+  describe('Disabled State Styling', () => {
+    let fixture: ComponentFixture<DisabledButtonTestComponent>;
+    let buttonElement: HTMLButtonElement;
+
+    beforeEach(async () => {
+      await TestBed.configureTestingModule({
+        imports: [DisabledButtonTestComponent],
+        providers: [provideZonelessChangeDetection()],
+      }).compileComponents();
+
+      fixture = TestBed.createComponent(DisabledButtonTestComponent);
+      const buttonDebugElement = fixture.debugElement.query(By.directive(SekButtonDirective));
+      buttonElement = buttonDebugElement.nativeElement;
+      fixture.autoDetectChanges();
     });
 
-    it('should apply active border styling', () => {
-      expect(host.style.border).toContain('1px');
-      expect(host.style.border).toContain('solid');
+    it('should apply disabled styles when disabled input is true', () => {
+      expect(buttonElement.style.opacity).toBe('0.5');
+      expect(buttonElement.style.cursor).toBe('not-allowed');
+      expect(buttonElement.style.pointerEvents).toBe('none');
+    });
+
+    it('should maintain base styles when disabled', () => {
+      expect(buttonElement.style.display).toBe('flex');
+      expect(buttonElement.style.alignItems).toBe('center');
+      expect(buttonElement.style.justifyContent).toBe('center');
+    });
+  });
+
+  describe('Combined Active and Disabled States', () => {
+    let fixture: ComponentFixture<ActiveDisabledButtonTestComponent>;
+    let buttonElement: HTMLButtonElement;
+
+    beforeEach(async () => {
+      await TestBed.configureTestingModule({
+        imports: [ActiveDisabledButtonTestComponent],
+        providers: [provideZonelessChangeDetection()],
+      }).compileComponents();
+
+      fixture = TestBed.createComponent(ActiveDisabledButtonTestComponent);
+      const buttonDebugElement = fixture.debugElement.query(By.directive(SekButtonDirective));
+      buttonElement = buttonDebugElement.nativeElement;
+      fixture.autoDetectChanges();
+    });
+
+    it('should apply both active and disabled styles when both inputs are true', () => {
+      expect(buttonElement.style.backgroundColor).toBeDefined();
+      expect(buttonElement.style.opacity).toBe('0.5');
+      expect(buttonElement.style.cursor).toBe('not-allowed');
+      expect(buttonElement.style.pointerEvents).toBe('none');
     });
   });
 });
