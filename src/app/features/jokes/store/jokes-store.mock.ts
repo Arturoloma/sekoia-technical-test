@@ -16,6 +16,7 @@ export function provideMockJokesStore(initialStateOverride?: Partial<JokesState>
 
     getJokes: jest.fn(),
     submitJoke: jest.fn(),
+    resetJokeListState: jest.fn(),
     resetSubmitJokeState: jest.fn(),
     updateFilters: jest.fn(),
   };

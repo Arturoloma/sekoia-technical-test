@@ -145,6 +145,13 @@ describe('JokeSubmitComponent', () => {
   });
 
   describe('onSubmit', () => {
+    it('should not call the API if the form is invalid', () => {
+      // The form is invalid initially
+      component.onSubmit();
+
+      expect(mockStore.submitJoke).not.toHaveBeenCalled();
+    });
+
     it('should submit a SINGLE type joke with correct parameters', () => {
       component.jokeForm.patchValue({
         category: JokeCategory.PROGRAMMING,

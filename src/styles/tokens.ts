@@ -47,7 +47,7 @@ export const Tokens = {
   spacing48Px: '48px',
   spacing64Px: '64px',
   fontFamilyNormal:
-    "'Inter',\n  -apple-system,\n  blinkmacsystemfont,\n  'Segoe UI',\n  sans-serif",
+    "'Inter',\r\n  -apple-system,\r\n  blinkmacsystemfont,\r\n  'Segoe UI',\r\n  sans-serif",
   fontFamilyMonospace: "'Monaco', 'Courier New', monospace",
   fontSizeS: '12px',
   fontSizeM: '14px',

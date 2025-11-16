@@ -111,6 +111,14 @@ export const jokesStore = signalStore(
         }),
       ),
     ),
+    resetJokeListState: (): void => {
+      patchState(store, {
+        jokes: initialState.jokes,
+        isJokeListLoading: initialState.isJokeListLoading,
+        getJokesError: initialState.getJokesError,
+        filters: initialState.filters,
+      });
+    },
     resetSubmitJokeState: (): void => {
       patchState(store, {
         isJokeSubmitLoading: initialState.isJokeSubmitLoading,
@@ -130,8 +138,6 @@ export const jokesStore = signalStore(
 
   withHooks({
     onInit(store) {
-      store.getJokes(store.filters());
-
       effect(() => {
         const filters = store.filters();
         store.getJokes(filters);

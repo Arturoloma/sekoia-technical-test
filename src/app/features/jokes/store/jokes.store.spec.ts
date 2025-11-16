@@ -43,11 +43,6 @@ describe('jokesStore', () => {
   });
 
   describe('getJokes', () => {
-    beforeEach(() => {
-      // Clear the initial call from onInit
-      mockJokeApiService.getJokes.mockClear();
-    });
-
     it('should fetch jokes successfully with multiple jokes response', (done) => {
       mockJokeApiService.getJokes.mockReturnValue(of(mockMultipleJokesResponse));
 
@@ -184,6 +179,17 @@ describe('jokesStore', () => {
     });
   });
 
+  describe('resetJokeListState', () => {
+    it('should reset joke list state to initial values', () => {
+      store.resetJokeListState();
+
+      expect(store.jokes()).toBe(initialState.jokes);
+      expect(store.isJokeListLoading()).toBe(initialState.isJokeListLoading);
+      expect(store.getJokesError()).toBe(initialState.getJokesError);
+      expect(store.filters()).toBe(initialState.filters);
+    });
+  });
+
   describe('resetSubmitJokeState', () => {
     it('should reset submit joke state to initial values', () => {
       store.resetSubmitJokeState();
@@ -210,19 +216,6 @@ describe('jokesStore', () => {
       expect(updatedFilters.category).toBe(JokeCategory.DARK);
       expect(updatedFilters.amount).toBe(10);
       expect(updatedFilters.lang).toBe(JokeLanguage.ENGLISH);
-    });
-  });
-
-  describe('Store Initialization Hook', () => {
-    it('should call getJokes on initialization', () => {
-      expect(mockJokeApiService.getJokes).toHaveBeenCalled();
-      expect(mockJokeApiService.getJokes).toHaveBeenCalledWith(
-        expect.objectContaining({
-          amount: 10,
-          category: JokeCategory.ANY,
-          lang: JokeLanguage.ENGLISH,
-        }),
-      );
     });
   });
 

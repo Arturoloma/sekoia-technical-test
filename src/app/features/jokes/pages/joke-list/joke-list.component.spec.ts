@@ -10,7 +10,7 @@ import { JokeListComponent } from './joke-list.component';
 describe('JokeListComponent', () => {
   let fixture: ComponentFixture<JokeListComponent>;
   let component: JokeListComponent;
-  let store: ReturnType<typeof TestBed.inject<typeof jokesStore>>;
+  let store: any;
   let updateFiltersSpy: jest.SpyInstance;
 
   beforeEach(async () => {
@@ -22,7 +22,7 @@ describe('JokeListComponent', () => {
     jest.useFakeTimers();
     fixture = TestBed.createComponent(JokeListComponent);
     component = fixture.componentInstance;
-    store = TestBed.inject(jokesStore) as any;
+    store = TestBed.inject(jokesStore);
     updateFiltersSpy = jest.spyOn<any, any>(store, 'updateFilters');
 
     fixture.autoDetectChanges();
@@ -35,6 +35,11 @@ describe('JokeListComponent', () => {
 
   it('should load', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should get the joke list on init', () => {
+    component.ngOnInit();
+    expect(store.getJokes).toHaveBeenCalled();
   });
 
   it('should call updateFilters with trimmed value after debounce', () => {
@@ -78,6 +83,11 @@ describe('JokeListComponent', () => {
     jest.advanceTimersByTime(300);
 
     expect(updateFiltersSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call store.resetJokeListState on destroy', () => {
+    component.ngOnDestroy();
+    expect(store.resetJokeListState).toHaveBeenCalled();
   });
 });
 

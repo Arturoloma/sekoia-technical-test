@@ -92,6 +92,10 @@ export class JokeSubmitComponent implements OnInit, OnDestroy {
   }
 
   public onSubmit(): void {
+    if (this.jokeForm.invalid) {
+      return;
+    }
+
     const selectedFlags: JokeFlag[] = this.jokeForm.get('flags')!.value;
     const jokeType = this.jokeForm.get('type')!.value[0];
     const params: SubmitJokeParameters = {

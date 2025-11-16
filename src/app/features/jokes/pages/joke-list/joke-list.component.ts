@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -26,7 +33,7 @@ import { jokesStore } from '../../store/jokes.store';
     SpinnerComponent,
   ],
 })
-export class JokeListComponent implements OnInit {
+export class JokeListComponent implements OnInit, OnDestroy {
   public readonly store = inject(jokesStore);
 
   public readonly searchJokesForm = new FormGroup({
@@ -38,7 +45,12 @@ export class JokeListComponent implements OnInit {
   private readonly _destroyRef = inject(DestroyRef);
 
   public ngOnInit(): void {
+    this.store.getJokes(this.store.filters());
     this._updateFiltersOnSearch();
+  }
+
+  public ngOnDestroy(): void {
+    this.store.resetJokeListState();
   }
 
   private _updateFiltersOnSearch(): void {
