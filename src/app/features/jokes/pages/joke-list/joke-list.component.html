@@ -1,3 +1,5 @@
+@let getJokesError = store.getJokesError();
+
 <article class="joke-list">
   <div class="search-container">
     <form class="search-form" [formGroup]="searchJokesForm">
@@ -16,21 +18,21 @@
         aria-label="Go to Submit Joke page"
         routerLink="/jokes/submit"
       >
-        <ng-icon [name]="'hero-plus'" [size]="'18'" [color]="'black'"></ng-icon>
+        <ng-icon [name]="'hero-plus'" [size]="'18'" [color]="'black'" aria-hidden="true"></ng-icon>
       </button>
     </nav>
   </div>
 
   <section>
-    @if (store.isLoading()) {
+    @if (store.isJokeListLoading()) {
       <sek-spinner class="loader"></sek-spinner>
-    } @else if (store.error() !== null) {
-      <div>
-        <p>{{ store.error()?.message }}</p>
-        <p>{{ store.error()?.additionalInfo }}</p>
+    } @else if (getJokesError) {
+      <div class="error" aria-live="polite">
+        <p>{{ getJokesError.message }}</p>
+        <p>{{ getJokesError.additionalInfo }}</p>
       </div>
     } @else {
-      <div class="jokes">
+      <div class="jokes" aria-live="polite">
         @for (joke of store.jokes(); track joke.id; let first = $first) {
           <sek-joke [joke]="joke"></sek-joke>
         }

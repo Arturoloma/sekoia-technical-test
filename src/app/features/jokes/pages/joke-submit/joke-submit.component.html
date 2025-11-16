@@ -1,45 +1,66 @@
 @let jokeType = jokeForm.get('type')?.value?.[0] ?? JokeType.SINGLE;
+@let submitJokeError = store.submitJokeError();
+@let submitJokeSuccess = store.submitJokeSuccess();
 
-<form class="joke-submit-container" [formGroup]="jokeForm">
+<form class="joke-submit-container" [formGroup]="jokeForm" (ngSubmit)="onSubmit()">
   <header class="title">
-    <button sekButton class="title__back-button" routerLink="/jokes/list">
-      <ng-icon [name]="'hero-arrow-uturn-left'"></ng-icon>
-      Browse Jokes
-    </button>
+    <nav class="title__nav">
+      <button sekButton routerLink="/jokes/list">
+        <ng-icon [name]="'hero-arrow-uturn-left'" aria-hidden="true"></ng-icon>
+        Browse Jokes
+      </button>
+    </nav>
     <h2 class="title__heading">Submit a Joke!</h2>
   </header>
 
-  <sek-buttons-option-list
-    class="joke-type-options"
-    formControlName="type"
-    [allowVoidSelection]="false"
-    [label]="'Joke type'"
-    [options]="jokeTypeOptions"
-  ></sek-buttons-option-list>
-
-  @if (jokeType === JokeType.SINGLE) {
-    <div class="labeled-input">
-      <label for="jokeInput">Joke</label>
-      <input id="jokeInput" type="text" sekInput formControlName="joke" />
-    </div>
+  @if (store.isJokeSubmitLoading()) {
+    <sek-spinner class="loader"></sek-spinner>
   } @else {
-    <div class="labeled-input">
-      <label for="setupInput">Setup</label>
-      <input id="setupInput" type="text" sekInput formControlName="setup" />
-    </div>
-    <div class="labeled-input">
-      <label for="deliveryInput">Delivery</label>
-      <input id="deliveryInput" type="text" sekInput formControlName="delivery" />
+    <sek-buttons-option-list
+      class="joke-type-options"
+      formControlName="type"
+      [allowVoidSelection]="false"
+      [label]="'Joke type'"
+      [options]="jokeTypeOptions"
+    ></sek-buttons-option-list>
+
+    @if (jokeType === JokeType.SINGLE) {
+      <div class="labeled-input">
+        <label for="jokeInput">Joke</label>
+        <input id="jokeInput" type="text" sekInput formControlName="joke" />
+      </div>
+    } @else {
+      <div class="labeled-input">
+        <label for="setupInput">Setup</label>
+        <input id="setupInput" type="text" sekInput formControlName="setup" />
+      </div>
+      <div class="labeled-input">
+        <label for="deliveryInput">Delivery</label>
+        <input id="deliveryInput" type="text" sekInput formControlName="delivery" />
+      </div>
+    }
+
+    <sek-buttons-option-list
+      class="joke-type-options"
+      formControlName="flags"
+      [label]="'Flags'"
+      [multiSelectable]="true"
+      [options]="flagOptions"
+    ></sek-buttons-option-list>
+
+    <!-- TODO: Language -->
+  }
+
+  @if (submitJokeError) {
+    <div class="error" aria-live="polite">
+      <p>{{ submitJokeError.message }}</p>
+      <p>{{ submitJokeError.additionalInfo }}</p>
     </div>
   }
 
-  <sek-buttons-option-list
-    class="joke-type-options"
-    formControlName="flags"
-    [label]="'Flags'"
-    [multiSelectable]="true"
-    [options]="flagOptions"
-  ></sek-buttons-option-list>
+  @if (submitJokeSuccess) {
+    <p aria-live="polite">Joke submitted!</p>
+  }
 
   <button type="submit" sekButton class="submit-button" [active]="true">Submit</button>
 </form>

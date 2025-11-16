@@ -1,5 +1,9 @@
 @use 'tokens' as *;
 
+.error {
+  color: $color-text-error;
+}
+
 .joke-list {
   display: flex;
   flex-direction: column;

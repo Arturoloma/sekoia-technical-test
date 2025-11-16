@@ -1,15 +1,24 @@
-import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { patchState, signalStore, withHooks, withMethods, withState } from '@ngrx/signals';
-import { JokesState } from './jokes.store.model';
-import { GetJokesParameters, JokeApiResponse, JokeCategory, JokeLanguage } from '@models';
 import { effect, inject } from '@angular/core';
 import { JokeApiService } from '@core/services';
+import {
+  GetJokesParameters,
+  JokeApiResponse,
+  JokeCategory,
+  JokeLanguage,
+  SubmitJokeParameters,
+} from '@models';
+import { patchState, signalStore, withHooks, withMethods, withState } from '@ngrx/signals';
+import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { catchError, of, pipe, switchMap, tap } from 'rxjs';
+import { JokesState } from './jokes.store.model';
 
 export const initialState: JokesState = {
   jokes: [],
-  isLoading: false,
-  error: null,
+  isJokeListLoading: false,
+  isJokeSubmitLoading: false,
+  getJokesError: null,
+  submitJokeError: null,
+  submitJokeSuccess: null,
   filters: {
     amount: 10,
     blacklistFlags: {
@@ -27,10 +36,6 @@ export const initialState: JokesState = {
     safeMode: true,
     type: undefined,
   },
-  pagination: {
-    currentAmount: 0,
-    hasMore: false,
-  },
 };
 
 export const jokesStore = signalStore(
@@ -39,7 +44,7 @@ export const jokesStore = signalStore(
   withMethods((store, jokesApiService = inject(JokeApiService)) => ({
     getJokes: rxMethod<Partial<GetJokesParameters>>(
       pipe(
-        tap(() => patchState(store, { isLoading: true, error: null })),
+        tap(() => patchState(store, { isJokeListLoading: true, getJokesError: null })),
         switchMap((params: Partial<GetJokesParameters>) => {
           const filterParams = { ...store.filters(), ...params };
 
@@ -47,8 +52,8 @@ export const jokesStore = signalStore(
             tap((response: JokeApiResponse) => {
               if (response.error) {
                 patchState(store, {
-                  isLoading: false,
-                  error: response,
+                  isJokeListLoading: false,
+                  getJokesError: response,
                 });
                 return;
               }
@@ -59,18 +64,46 @@ export const jokesStore = signalStore(
 
               patchState(store, {
                 jokes,
-                isLoading: false,
-                error: null,
-                pagination: {
-                  currentAmount: jokes.length,
-                  hasMore: jokes.length >= filterParams.amount,
-                },
+                isJokeListLoading: false,
+                getJokesError: null,
               });
             }),
             catchError((error) => {
               patchState(store, {
-                isLoading: false,
-                error: error.error,
+                isJokeListLoading: false,
+                getJokesError: error.error,
+              });
+              return of(null);
+            }),
+          );
+        }),
+      ),
+    ),
+    submitJoke: rxMethod<Partial<SubmitJokeParameters>>(
+      pipe(
+        tap(() => patchState(store, { isJokeSubmitLoading: true, submitJokeError: null })),
+        switchMap((params: Partial<SubmitJokeParameters>) => {
+          return jokesApiService.submitJoke(params).pipe(
+            tap((response: JokeApiResponse) => {
+              if (response.error) {
+                patchState(store, {
+                  isJokeSubmitLoading: false,
+                  submitJokeError: response,
+                  submitJokeSuccess: false,
+                });
+                return;
+              }
+              patchState(store, {
+                isJokeSubmitLoading: false,
+                submitJokeError: null,
+                submitJokeSuccess: true,
+              });
+            }),
+            catchError((error) => {
+              patchState(store, {
+                isJokeSubmitLoading: false,
+                submitJokeError: error.error,
+                submitJokeSuccess: false,
               });
               return of(null);
             }),

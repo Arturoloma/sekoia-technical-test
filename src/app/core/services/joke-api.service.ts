@@ -1,7 +1,14 @@
-import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import {
+  GetJokesParameters,
+  JokeApiResponse,
+  JokeCategory,
+  JokeLanguage,
+  JokeType,
+  SubmitJokeParameters,
+} from '@models';
 import { Observable } from 'rxjs';
-import { GetJokesParameters, JokeApiResponse, JokeCategory } from '@models';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +21,6 @@ export class JokeApiService {
   public getJokes(params: Partial<GetJokesParameters> = {}): Observable<JokeApiResponse> {
     const category = params.category ?? JokeCategory.ANY;
     const amount = params.amount ?? 10;
-
     const url = `${this.API_URL}/joke/${category}`;
 
     let httpParams = new HttpParams().set('amount', amount.toString());
@@ -51,6 +57,32 @@ export class JokeApiService {
 
     return this._httpClient.get<JokeApiResponse>(url, {
       params: httpParams,
+    });
+  }
+
+  public submitJoke(params: Partial<SubmitJokeParameters> = {}): Observable<JokeApiResponse> {
+    const url = `${this.API_URL}/submit`;
+    const body: SubmitJokeParameters = {
+      formatVersion: 3,
+      category: params.category ?? JokeCategory.ANY,
+      delivery: params.delivery,
+      flags: params.flags ?? {
+        explicit: false,
+        nsfw: false,
+        political: false,
+        racist: false,
+        religious: false,
+        sexist: false,
+      },
+      joke: params.joke,
+      lang: params.lang ?? JokeLanguage.ENGLISH,
+      safe: false,
+      setup: params.setup,
+      type: params.type ?? (params.joke ? JokeType.SINGLE : JokeType.TWO_PART),
+    };
+
+    return this._httpClient.post<JokeApiResponse>(url, body, {
+      params: new HttpParams().set('dry-run', ''),
     });
   }
 }
