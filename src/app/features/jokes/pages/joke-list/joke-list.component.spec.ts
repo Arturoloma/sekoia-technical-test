@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { JokeListComponent } from './joke-list.component';
-import { jokesStore } from '../../store/jokes.store';
-import { provideMockJokesStore } from '../../store/jokes-store.mock';
 import { provideZonelessChangeDetection } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { provideMockJokesStore } from '../../store/jokes-store.mock';
+import { jokesStore } from '../../store/jokes.store';
+import { routes } from './../../../../app.routes';
+import { JokeListComponent } from './joke-list.component';
 
 describe('JokeListComponent', () => {
   let fixture: ComponentFixture<JokeListComponent>;
@@ -14,7 +16,7 @@ describe('JokeListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [JokeListComponent],
-      providers: [provideZonelessChangeDetection(), provideMockJokesStore()],
+      providers: [provideZonelessChangeDetection(), provideMockJokesStore(), provideRouter(routes)],
     }).compileComponents();
 
     jest.useFakeTimers();
