@@ -26,16 +26,16 @@
 
     @if (jokeType === JokeType.SINGLE) {
       <div class="labeled-input">
-        <label for="jokeInput">Joke</label>
+        <label for="jokeInput">Joke *</label>
         <input id="jokeInput" type="text" sekInput formControlName="joke" />
       </div>
     } @else {
       <div class="labeled-input">
-        <label for="setupInput">Setup</label>
+        <label for="setupInput">Setup *</label>
         <input id="setupInput" type="text" sekInput formControlName="setup" />
       </div>
       <div class="labeled-input">
-        <label for="deliveryInput">Delivery</label>
+        <label for="deliveryInput">Delivery *</label>
         <input id="deliveryInput" type="text" sekInput formControlName="delivery" />
       </div>
     }
@@ -62,5 +62,13 @@
     <p aria-live="polite">Joke submitted!</p>
   }
 
-  <button type="submit" sekButton class="submit-button" [active]="true">Submit</button>
+  <button
+    type="submit"
+    sekButton
+    class="submit-button"
+    [active]="true"
+    [disabled]="jokeForm.invalid"
+  >
+    Submit
+  </button>
 </form>

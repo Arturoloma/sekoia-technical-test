@@ -8,6 +8,7 @@ import { Tokens } from '@styles';
 })
 export class SekButtonDirective implements OnInit {
   public active = input<boolean>(false);
+  public disabled = input<boolean>(false);
 
   private readonly _destroyRef = inject(DestroyRef);
   private readonly _elementRef = inject(ElementRef);
@@ -18,6 +19,12 @@ export class SekButtonDirective implements OnInit {
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((isActive: boolean) => {
         this._styleByActivity(isActive);
+      });
+
+    toObservable(this.disabled)
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe((isDisabled: boolean) => {
+        this._styleByDisabled(isDisabled);
       });
   }
 
@@ -44,6 +51,20 @@ export class SekButtonDirective implements OnInit {
     );
   }
 
+  private _styleByDisabled(isButtonDisabled: boolean): void {
+    const host = this._elementRef.nativeElement;
+
+    if (isButtonDisabled) {
+      this._renderer.setStyle(host, 'opacity', '0.5');
+      this._renderer.setStyle(host, 'cursor', 'not-allowed');
+      this._renderer.setStyle(host, 'pointer-events', 'none');
+    } else {
+      this._renderer.removeStyle(host, 'opacity');
+      this._renderer.setStyle(host, 'cursor', 'pointer');
+      this._renderer.removeStyle(host, 'pointer-events');
+    }
+  }
+
   private _styleHostButton(): void {
     const host = this._elementRef.nativeElement;
 
@@ -53,6 +74,5 @@ export class SekButtonDirective implements OnInit {
     this._renderer.setStyle(host, 'display', 'flex');
     this._renderer.setStyle(host, 'align-items', 'center');
     this._renderer.setStyle(host, 'justify-content', 'center');
-    this._renderer.setStyle(host, 'cursor', 'pointer');
   }
 }

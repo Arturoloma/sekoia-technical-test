@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ButtonsOptionListComponent, SpinnerComponent } from '@components';
 import { SekButtonDirective, SekInputDirective } from '@directives';
@@ -31,13 +32,15 @@ import { jokesStore } from '../../store/jokes.store';
     SpinnerComponent,
   ],
 })
-export class JokeSubmitComponent {
-  // TODO: Validation
+export class JokeSubmitComponent implements OnInit {
   public readonly jokeForm = new FormGroup({
     category: new FormControl<JokeCategory>(JokeCategory.ANY, { nonNullable: true }),
     delivery: new FormControl<string | undefined>(undefined, { nonNullable: true }),
     flags: new FormControl<JokeFlag[]>([], { nonNullable: true }),
-    joke: new FormControl<string | undefined>(undefined, { nonNullable: true }),
+    joke: new FormControl<string | undefined>(undefined, {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
     lang: new FormControl<JokeLanguage>(JokeLanguage.ENGLISH, { nonNullable: true }),
     safe: new FormControl<boolean>(false, { nonNullable: true }),
     setup: new FormControl<string | undefined>(undefined, { nonNullable: true }),
@@ -61,6 +64,16 @@ export class JokeSubmitComponent {
 
   public readonly JokeType = JokeType;
 
+  private readonly _destroyRef = inject(DestroyRef);
+
+  constructor() {
+    this._resetFormOnSuccess();
+  }
+
+  public ngOnInit(): void {
+    this._setDynamicValidation();
+  }
+
   public onSubmit(): void {
     const selectedFlags: JokeFlag[] = this.jokeForm.get('flags')!.value;
     const params: SubmitJokeParameters = {
@@ -83,5 +96,40 @@ export class JokeSubmitComponent {
     };
 
     this.store.submitJoke(params);
+  }
+
+  private _resetFormOnSuccess(): void {
+    toObservable(this.store.submitJokeSuccess)
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe((success: boolean | null) => {
+        if (success) {
+          this.jokeForm.reset();
+        }
+      });
+  }
+
+  private _setDynamicValidation(): void {
+    this.jokeForm
+      .get('type')
+      ?.valueChanges.pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe((jokeType: JokeType[]) => {
+        const deliveryControl = this.jokeForm.get('delivery');
+        const jokeControl = this.jokeForm.get('joke');
+        const setupControl = this.jokeForm.get('setup');
+
+        if (jokeType[0] === JokeType.SINGLE) {
+          jokeControl?.setValidators(Validators.required);
+          setupControl?.removeValidators(Validators.required);
+          deliveryControl?.removeValidators(Validators.required);
+        } else {
+          setupControl?.setValidators(Validators.required);
+          deliveryControl?.setValidators(Validators.required);
+          jokeControl?.removeValidators(Validators.required);
+        }
+
+        deliveryControl?.updateValueAndValidity();
+        jokeControl?.updateValueAndValidity();
+        setupControl?.updateValueAndValidity();
+      });
   }
 }
